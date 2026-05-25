@@ -8,3 +8,4 @@ coverage/
 !.env.example
 
 open-design/
+.vercel
