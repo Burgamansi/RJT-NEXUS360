@@ -4,6 +4,7 @@
   "rewrites": [
     { "source": "/api/health", "destination": "/api/health" },
     { "source": "/api/dbtest", "destination": "/api/dbtest" },
+    { "source": "/api/diagnose", "destination": "/api/diagnose" },
     { "source": "/api/:path*", "destination": "/api/index" }
   ]
 }
