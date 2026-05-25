@@ -3,6 +3,7 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/api/health", "destination": "/api/health" },
+    { "source": "/api/dbtest", "destination": "/api/dbtest" },
     { "source": "/api/:path*", "destination": "/api/index" }
   ]
 }
