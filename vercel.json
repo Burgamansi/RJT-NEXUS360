@@ -6,6 +6,7 @@
     { "source": "/api/dbtest", "destination": "/api/dbtest" },
     { "source": "/api/diagnose", "destination": "/api/diagnose" },
     { "source": "/api/diag2", "destination": "/api/diag2" },
+    { "source": "/api/diag3", "destination": "/api/diag3" },
     { "source": "/api/:path*", "destination": "/api/index" }
   ]
 }
