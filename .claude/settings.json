@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m 'feat\\(platform\\): finalize rjt nexus360 deployment and excel analytics pipeline *)",
+      "Bash(npm run *)"
+    ]
+  }
+}
