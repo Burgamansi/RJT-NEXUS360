@@ -1,5 +1,5 @@
-import ExcelJS from "exceljs";
-import officeCrypto from "officecrypto-tool";
+import type ExcelJS from "exceljs";
+// officeCrypto loaded lazily inside importExcelData to avoid esbuild bundling issues
 import { db } from "../config/db.js";
 import { DEFAULT_TENANT_ID } from "../config/brand.js";
 import { fileService } from "./file.service.js";
@@ -44,6 +44,7 @@ export const analyticsService = {
     if (password) {
       console.log(`[analyticsService] Decrypting file...`);
       try {
+        const { default: officeCrypto } = await import("officecrypto-tool");
         finalBuffer = await officeCrypto.decrypt(fileBuffer, { password });
       } catch (e) {
         console.warn(`Decryption failed, using original buffer:`, e);
