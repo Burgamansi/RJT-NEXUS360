@@ -1,10 +1,9 @@
-import PDFDocument from "pdfkit";
-import pptxgen from "pptxgenjs";
 import { ReportSummary } from "./report-summary.service.js";
-import { PassThrough } from "stream";
 
 export const exportService = {
   async generatePDF(summary: ReportSummary): Promise<Buffer> {
+    // Lazy import — avoids ESM cycle issues with pdfkit at startup
+    const { default: PDFDocument } = await import("pdfkit");
     return new Promise((resolve, reject) => {
       const doc = new PDFDocument({ margin: 50 });
       const chunks: Buffer[] = [];
@@ -52,6 +51,8 @@ export const exportService = {
   },
 
   async generatePPT(summary: ReportSummary): Promise<Buffer> {
+    // Lazy import — avoids ESM cycle issues with pptxgenjs at startup
+    const { default: pptxgen } = await import("pptxgenjs");
     const pres = new pptxgen();
 
     // 1. Title Slide
