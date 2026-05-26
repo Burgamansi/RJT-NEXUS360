@@ -1,6 +1,0 @@
-{
-  "TURSO_DATABASE_URL": "libsql://rjt-nexus360-burgamansi.aws-us-east-2.turso.io",
-  "TURSO_AUTH_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3Nzk3MTY5ODYsImlkIjoiMDE5ZTVmNTYtNzYwMS03MDI4LWE4MzUtNzg2Y2U5YzYzNDQ1IiwicmlkIjoiYjI3YTIwMTgtNzU5ZC00Nzg1LWFkMzctNzZiM2Q4YzgxM2M0In0.szeB22bZoY3MvCl9TGOr1UnAD_aAzlL_iieZYvTfyGi3SQVv2dhxxd20WuIrKpCze1OzmPHQAKHlkQitW4ocDQ",
-  "orgSlug": "burgamansi",
-  "dbName": "rjt-nexus360"
-}

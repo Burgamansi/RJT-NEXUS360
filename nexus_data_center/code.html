@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RJT Nexus360 | AI Insights &amp; Data Sync</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.04);
+        }
+        .cinematic-shadow {
+            box-shadow: 0 20px 50px -12px rgba(0, 240, 255, 0.1);
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        .drag-over {
+            border-color: #00F0FF !important;
+            background: rgba(0, 240, 255, 0.05) !important;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e3e2e5; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#000000",
+                        "primary-fixed": "#d7e3ff",
+                        "on-tertiary-fixed": "#351000",
+                        "on-background": "#1b1b1e",
+                        "on-primary-fixed-variant": "#32476c",
+                        "electric-blue": "#00F0FF",
+                        "on-tertiary-container": "#b37559",
+                        "surface-container-low": "#f5f3f6",
+                        "executive-gray": "#64748B",
+                        "secondary-container": "#0070eb",
+                        "inverse-on-surface": "#f2f0f4",
+                        "surface-tint": "#4a5f85",
+                        "on-secondary-container": "#fefcff",
+                        "inverse-primary": "#b2c7f3",
+                        "outline": "#74777f",
+                        "on-surface-variant": "#44474e",
+                        "background": "#faf9fc",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-surface": "#1b1b1e",
+                        "secondary": "#0058bc",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary-fixed-variant": "#004493",
+                        "on-primary-container": "#6f84ad",
+                        "glass-stroke": "rgba(255, 255, 255, 0.4)",
+                        "on-tertiary": "#ffffff",
+                        "status-success": "#10B981",
+                        "surface-container-highest": "#e3e2e5",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b2c7f3",
+                        "surface-container-high": "#e9e7eb",
+                        "surface-container": "#efedf1",
+                        "surface-dim": "#dbd9dd",
+                        "on-tertiary-fixed-variant": "#6b3a22",
+                        "outline-variant": "#c4c6cf",
+                        "surface": "#faf9fc",
+                        "surface-variant": "#e3e2e5",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#001a41",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf9fc",
+                        "status-critical": "#EF4444",
+                        "tertiary-container": "#351000",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#feb696",
+                        "inverse-surface": "#303033",
+                        "error-container": "#ffdad6",
+                        "primary": "#000000",
+                        "primary-container": "#011b3e",
+                        "on-primary-fixed": "#011b3e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1440px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-caps": ["JetBrains Mono"],
+                        "data-mono": ["JetBrains Mono"],
+                        "body-base": ["Inter"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "title-md": ["Hanken Grotesk"],
+                        "display-xl": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-base overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<header class="bg-surface/80 backdrop-blur-xl border-b border-glass-stroke docked full-width top-0 sticky shadow-2xl shadow-primary-container/5 z-50">
+<div class="flex justify-between items-center h-20 px-margin-desktop w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-4 cursor-pointer active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">grid_view</span>
+<h1 class="font-display-xl text-primary font-bold tracking-tighter">RJT NEXUS360</h1>
+</div>
+<div class="hidden md:flex gap-8">
+<nav class="flex gap-6 items-center">
+<a class="text-electric-blue border-b-2 border-electric-blue font-label-caps text-label-caps h-20 flex items-center" href="#">Data Center</a>
+<a class="text-outline hover:text-on-surface transition-colors font-label-caps text-label-caps h-20 flex items-center" href="#">Executive Hub</a>
+<a class="text-outline hover:text-on-surface transition-colors font-label-caps text-label-caps h-20 flex items-center" href="#">Risk Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white overflow-hidden ring-2 ring-primary/10">
+<img alt="Director User" class="w-full h-full object-cover" data-alt="A professional studio portrait of a corporate director, featuring a confident expression, modern high-key studio lighting with soft shadows, and a clean minimalist background. The aesthetic is sharp and premium, perfectly aligned with a high-end light-mode corporate dashboard interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBajrn0xh0ACazRWQ6ThOhBqsG-FlflczeObKNQZl4pjrGphRs1YExQWGUrnfFRGGYsVC0sB0O7ult2_pZ9LWtGcuNiYRG_SqRKFgJbooj1EDZBYC_IUE1dP9lIc6NbQDXi6qp_-KwidQk76sMI3uj_7K5jrW_MhwEi0fmcSqNRo3r15-7spnwTCA8BEsthjgS3sepXg1UfkKExhqrzeRIFVhy02XCN0d1rT1rpqIR0EDwQ-O_34NjQnsN0yy2p2oGDBT0ip0G3V2ya"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex flex-col h-screen sticky top-0 py-8 gap-gutter bg-surface-container-lowest/90 backdrop-blur-2xl border-r border-glass-stroke w-72 z-40 shadow-[40px_0_80px_rgba(0,0,0,0.05)]">
+<div class="px-6 mb-8">
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-outline">v3.2.0-Alpha</p>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:bg-surface-container-low hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">dashboard</span>
+<span class="font-label-caps text-label-caps">Executive Hub</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:bg-surface-container-low hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">account_tree</span>
+<span class="font-label-caps text-label-caps">Management</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 bg-secondary-container/20 text-secondary border-l-4 border-secondary font-bold group" href="#">
+<span class="material-symbols-outlined text-electric-blue">database</span>
+<span class="font-label-caps text-label-caps">Data Center</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:bg-surface-container-low hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">fact_check</span>
+<span class="font-label-caps text-label-caps">Audit Center</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-outline hover:bg-surface-container-low hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">security</span>
+<span class="font-label-caps text-label-caps">Risk Analytics</span>
+</a>
+</nav>
+<div class="mt-auto px-6">
+<div class="p-4 rounded-xl glass-panel cinematic-shadow">
+<p class="text-[10px] font-data-mono text-outline mb-1">SYSTEM STATUS</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success animate-pulse"></div>
+<span class="text-xs font-semibold">Nexus Core Active</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto p-margin-mobile md:p-margin-desktop space-y-gutter">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<h2 class="font-headline-lg text-headline-lg md:text-display-xl tracking-tighter">AI Insights &amp; Data Sync</h2>
+<p class="text-outline max-w-2xl font-body-base">Autonomous extraction and synchronization of fragmented corporate data into the Nexus360 core ecosystem.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 rounded-xl bg-tertiary text-white font-label-caps text-label-caps flex items-center gap-2 hover:scale-[1.02] transition-transform active:scale-95">
+<span class="material-symbols-outlined">sync</span> SYNC ALL
+                    </button>
+<button class="px-6 py-3 rounded-xl glass-panel border border-glass-stroke text-primary font-label-caps text-label-caps flex items-center gap-2 hover:bg-white transition-all">
+<span class="material-symbols-outlined">settings</span> PREFERENCES
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Drag & Drop Upload Section -->
+<section class="md:col-span-8 space-y-gutter">
+<div class="relative group cursor-pointer border-2 border-dashed border-outline-variant rounded-full md:rounded-xl p-12 transition-all duration-500 bg-surface-container-lowest hover:border-electric-blue flex flex-col items-center justify-center text-center" id="drop-zone">
+<div class="w-20 h-20 rounded-full bg-primary-container/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">upload_file</span>
+</div>
+<h3 class="font-title-md text-title-md mb-2">Initialize Data Extraction</h3>
+<p class="text-outline font-body-sm max-w-sm">Drag and drop Excel or CSV datasets here. AI will automatically map headers and sanitize inputs.</p>
+<input accept=".xlsx,.csv" class="hidden" id="file-input" type="file"/>
+<div class="mt-8 flex gap-4">
+<div class="px-4 py-1.5 rounded-full bg-surface-container text-outline text-[10px] font-data-mono uppercase tracking-widest border border-glass-stroke">MAX 500MB</div>
+<div class="px-4 py-1.5 rounded-full bg-surface-container text-outline text-[10px] font-data-mono uppercase tracking-widest border border-glass-stroke">AI-READY</div>
+</div>
+</div>
+<!-- AI Processing Status -->
+<div class="glass-panel rounded-xl p-8 cinematic-shadow relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-electric-blue"></div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h4 class="font-title-md text-title-md">Live Extraction Pipeline</h4>
+<p class="text-outline font-body-sm">Parsing global financial records v2.4</p>
+</div>
+<span class="px-3 py-1 rounded-full bg-secondary-container/10 text-secondary font-label-caps text-[10px] uppercase animate-pulse">Processing...</span>
+</div>
+<!-- Progress Track -->
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-data-mono">
+<span class="text-primary font-bold">DATA MAPPING</span>
+<span class="text-outline">87%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-electric-blue w-[87%] relative">
+<div class="absolute inset-0 bg-white/30 animate-[shimmer_2s_infinite]"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="p-4 rounded-xl bg-surface-container-low border border-glass-stroke">
+<p class="text-[10px] font-label-caps text-outline uppercase mb-2">Rows Read</p>
+<p class="text-xl font-data-mono font-bold">128,492</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low border border-glass-stroke">
+<p class="text-[10px] font-label-caps text-outline uppercase mb-2">AI Entities</p>
+<p class="text-xl font-data-mono font-bold">4,102</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low border border-glass-stroke">
+<p class="text-[10px] font-label-caps text-outline uppercase mb-2">Mapping Conf.</p>
+<p class="text-xl font-data-mono font-bold text-status-success">99.8%</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low border border-glass-stroke">
+<p class="text-[10px] font-label-caps text-outline uppercase mb-2">Est. Completion</p>
+<p class="text-xl font-data-mono font-bold">0:42s</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Processing Logs -->
+<div class="glass-panel rounded-xl p-8 cinematic-shadow">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-title-md text-title-md">Processing Logs</h4>
+<button class="text-secondary font-label-caps text-xs hover:underline uppercase tracking-widest">Clear Buffer</button>
+</div>
+<div class="font-data-mono text-sm space-y-3 bg-tertiary text-white/80 p-6 rounded-xl overflow-y-auto max-h-60 border border-white/10">
+<div class="flex gap-4">
+<span class="text-white/40">[14:22:01]</span>
+<span class="text-electric-blue">INIT</span>
+<span>Core sync engine handshake verified.</span>
+</div>
+<div class="flex gap-4">
+<span class="text-white/40">[14:22:03]</span>
+<span class="text-status-success">PARSE</span>
+<span>Detected schema: Financial_Consolidated_Q3.xlsx</span>
+</div>
+<div class="flex gap-4">
+<span class="text-white/40">[14:22:05]</span>
+<span class="text-electric-blue">AI</span>
+<span>Heuristic mapping active: 14 columns identified.</span>
+</div>
+<div class="flex gap-4">
+<span class="text-white/40">[14:22:08]</span>
+<span class="text-status-critical">WARN</span>
+<span class="text-status-critical">Row 4,021: Non-standard currency symbol (¥) auto-normalized to JPY.</span>
+</div>
+<div class="flex gap-4">
+<span class="text-white/40">[14:22:12]</span>
+<span class="text-electric-blue">SYNC</span>
+<span>Injecting data nodes into main cluster...</span>
+</div>
+<div class="animate-pulse">_</div>
+</div>
+</div>
+</section>
+<!-- Right Rail: Recommendations & Insights -->
+<aside class="md:col-span-4 space-y-gutter">
+<!-- AI Recommendation Panel -->
+<div class="glass-panel rounded-xl p-6 cinematic-shadow border-t-4 border-electric-blue">
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-electric-blue/10 flex items-center justify-center text-electric-blue animate-pulse-glow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-primary">Nexus AI Insights</h4>
+<p class="text-[10px] font-label-caps text-outline">OPTIMIZATION ENGINE</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="p-4 rounded-xl bg-surface-container hover:bg-white transition-all cursor-pointer border border-transparent hover:border-glass-stroke group">
+<h5 class="text-sm font-bold mb-1 group-hover:text-secondary">Normalize Timezones</h5>
+<p class="text-xs text-outline leading-relaxed">System detected variance in GMT offsets. Auto-normalize to UTC+0 for global alignment?</p>
+<button class="mt-3 w-full py-2 rounded-lg bg-primary text-white text-[10px] font-label-caps uppercase tracking-widest">Apply Optimization</button>
+</div>
+<div class="p-4 rounded-xl bg-surface-container hover:bg-white transition-all cursor-pointer border border-transparent hover:border-glass-stroke group">
+<h5 class="text-sm font-bold mb-1 group-hover:text-secondary">Deduplication Cluster</h5>
+<p class="text-xs text-outline leading-relaxed">Identified 42 redundant entity entries in "Vendor_Accounts". Merge recommended.</p>
+<button class="mt-3 w-full py-2 rounded-lg bg-surface-container-highest text-primary text-[10px] font-label-caps uppercase tracking-widest">Review Matches</button>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-glass-stroke">
+<h5 class="text-[10px] font-label-caps text-outline uppercase mb-4 tracking-tighter">DATA QUALITY SCORE</h5>
+<div class="flex items-center gap-4">
+<div class="text-4xl font-display-xl text-primary">A<span class="text-electric-blue">+</span></div>
+<div class="flex-1">
+<div class="h-2 w-full bg-surface-container-highest rounded-full">
+<div class="h-full bg-status-success w-[96%]"></div>
+</div>
+<p class="text-[10px] mt-1 text-outline">Higher than 96% of global datasets</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Data Mapping Feedback -->
+<div class="glass-panel rounded-xl p-6 cinematic-shadow">
+<h4 class="font-title-md text-title-md mb-6">Active Schema Mapping</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-outline">key</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold">Transaction_ID</span>
+<span class="text-[10px] text-status-success font-data-mono">MAPPED</span>
+</div>
+<div class="text-[10px] text-outline">ID -&gt; INT64</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-outline">calendar_today</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold">Post_Date</span>
+<span class="text-[10px] text-status-success font-data-mono">MAPPED</span>
+</div>
+<div class="text-[10px] text-outline">TIMESTAMP -&gt; ISO8601</div>
+</div>
+</div>
+<div class="flex items-center gap-3 opacity-50">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-outline">description</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<span class="text-xs font-bold">Notes_Field</span>
+<span class="text-[10px] text-outline font-data-mono uppercase">Pending...</span>
+</div>
+<div class="text-[10px] text-outline">TEXT -&gt; STRING</div>
+</div>
+</div>
+</div>
+<img alt="Data Mapping Visualization" class="mt-6 rounded-xl w-full h-32 object-cover border border-glass-stroke" data-alt="A minimalist abstract visualization of interconnected digital data nodes forming a cohesive architectural grid. The composition uses thin, precise lines in vibrant electric blue against a pristine white and soft gray background. The overall mood is sophisticated, technical, and serene, mirroring the high-end corporate aesthetic of the dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1-jz98a3koFW-Ewtb-1so3A2AyJYEzPEDGLV3Z0KmkYivept4NRwBs-rSkcA9ZM5c1TI-5Wtf6PA2YNFE2I7PTaNi0U8II9o_TtPoYdTYtToNuxstqQ3V5nY9zn8OPlpjYxFW3YWTWwthikdnSu1BIxlvdY6oBsqLHOW4fWzO3hgtTNRcjMAsRSOgOB6rFfIhoGO2lfbdVqVN2tskG-ffUCL9ML79AEcMnRGKyeNqAtZ3ZmbwF4Ypo3ejEK5elKaiZvrdYZH7XxhZ"/>
+</div>
+</aside>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Shell -->
+<nav class="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 rounded-full px-6 py-3 w-auto bg-surface-container/40 backdrop-blur-md border border-glass-stroke shadow-[0_20px_50px_rgba(0,240,255,0.15)] z-50 flex gap-8 items-center">
+<a class="text-outline/60 hover:scale-110 transition-transform cursor-pointer" href="#">
+<span class="material-symbols-outlined">search</span>
+</a>
+<a class="text-electric-blue drop-shadow-[0_0_8px_rgba(0,240,255,0.8)] hover:scale-110 transition-transform cursor-pointer" href="#">
+<span class="material-symbols-outlined">terminal</span>
+</a>
+<a class="text-outline/60 hover:scale-110 transition-transform cursor-pointer" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+</a>
+<a class="text-outline/60 hover:scale-110 transition-transform cursor-pointer" href="#">
+<span class="material-symbols-outlined">sync</span>
+</a>
+</nav>
+<script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        ['dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.remove('drag-over');
+            });
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                alert(`Nexus Engine: Received ${files[0].name}. Initializing secure extraction...`);
+            }
+        });
+
+        // Micro-interaction for logs
+        setInterval(() => {
+            const logs = [
+                { type: 'AI', text: 'Analyzing column entropy...' },
+                { type: 'SYNC', text: 'Batch 420-B successfully committed to ledger.' },
+                { type: 'PARSE', text: 'Normalization of "User_ID" complete.' }
+            ];
+            const log = logs[Math.floor(Math.random() * logs.length)];
+            // In a real app, this would append to the DOM
+        }, 3000);
+    </script>
+</body></html>

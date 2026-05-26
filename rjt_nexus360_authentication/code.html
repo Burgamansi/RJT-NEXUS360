@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@600;700;800&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes subtle-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: subtle-gradient 15s ease infinite;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .input-focus-glow:focus-within {
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+            border-color: #00F0FF;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-status {
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#000000",
+                      "primary-fixed": "#d7e3ff",
+                      "on-tertiary-fixed": "#351000",
+                      "on-background": "#1b1b1e",
+                      "on-primary-fixed-variant": "#32476c",
+                      "electric-blue": "#00F0FF",
+                      "on-tertiary-container": "#b37559",
+                      "surface-container-low": "#f5f3f6",
+                      "executive-gray": "#64748B",
+                      "secondary-container": "#0070eb",
+                      "inverse-on-surface": "#f2f0f4",
+                      "surface-tint": "#4a5f85",
+                      "on-secondary-container": "#fefcff",
+                      "inverse-primary": "#b2c7f3",
+                      "outline": "#74777f",
+                      "on-surface-variant": "#44474e",
+                      "background": "#faf9fc",
+                      "secondary-fixed": "#d8e2ff",
+                      "on-surface": "#1b1b1e",
+                      "secondary": "#0058bc",
+                      "on-error": "#ffffff",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "on-secondary-fixed-variant": "#004493",
+                      "on-primary-container": "#6f84ad",
+                      "glass-stroke": "rgba(255, 255, 255, 0.4)",
+                      "on-tertiary": "#ffffff",
+                      "status-success": "#10B981",
+                      "surface-container-highest": "#e3e2e5",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#b2c7f3",
+                      "surface-container-high": "#e9e7eb",
+                      "surface-container": "#efedf1",
+                      "surface-dim": "#dbd9dd",
+                      "on-tertiary-fixed-variant": "#6b3a22",
+                      "outline-variant": "#c4c6cf",
+                      "surface": "#faf9fc",
+                      "surface-variant": "#e3e2e5",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed": "#001a41",
+                      "on-error-container": "#93000a",
+                      "surface-bright": "#faf9fc",
+                      "status-critical": "#EF4444",
+                      "tertiary-container": "#351000",
+                      "tertiary-fixed": "#ffdbcc",
+                      "surface-container-lowest": "#ffffff",
+                      "tertiary-fixed-dim": "#feb696",
+                      "inverse-surface": "#303033",
+                      "error-container": "#ffdad6",
+                      "primary": "#000000",
+                      "primary-container": "#011b3e",
+                      "on-primary-fixed": "#011b3e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Hanken Grotesk"],
+                      "label-caps": ["JetBrains Mono"],
+                      "data-mono": ["JetBrains Mono"],
+                      "body-base": ["Inter"],
+                      "headline-lg": ["Hanken Grotesk"],
+                      "title-md": ["Hanken Grotesk"],
+                      "display-xl": ["Hanken Grotesk"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "display-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-tertiary text-on-background font-body-base overflow-hidden">
+<!-- Cinematic Background Container -->
+<div class="fixed inset-0 z-0 overflow-hidden">
+<!-- Main Animated Gradient Layer -->
+<div class="absolute inset-0 bg-gradient-to-br from-tertiary via-primary-container to-tertiary animate-gradient opacity-80"></div>
+<!-- Animated Accents -->
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-electric-blue/10 rounded-full blur-[120px] animate-pulse"></div>
+<div class="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[150px] animate-pulse delay-700"></div>
+<!-- Texture Overlay -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+</div>
+<!-- Main Content Layout -->
+<main class="relative z-10 flex min-h-screen flex-col items-center justify-center px-margin-mobile md:px-margin-desktop">
+<!-- Branding Header -->
+<header class="mb-12 text-center animate-fade-in">
+<div class="mb-6 flex justify-center">
+<img alt="RJT NEXUS360 Logo" class="h-16 w-auto object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUuP2jUNY69iV5F1TpNEbwYiINEqKGF3waMRjFMmWjwodQ0W0xl4zgnrWwQLY5v_HAevrpdAzF9BYd-BYHsGWvgRVvfxfAobH7xjg_v7tM8gBRStlsAaR-yycYyoHYRDkUO2EV3Lrtv8vDuHzKPXYwizUzjActn06aUK0kXH6sM-8qa60MFhgWl7Xo4dECBoDh6-R3kjcs95vNPJArus5oIaaDkddRe-7HK93JE122NoWZUnDklBkXvceM6jI56tx5mGqWST166UAo"/>
+</div>
+<h1 class="font-display-xl text-display-xl text-white tracking-tighter">
+                Suite <span class="text-electric-blue">Executiva</span> Inteligente
+            </h1>
+<p class="font-title-md text-title-md text-outline-variant/60 mt-2">
+                Acesse o núcleo da sua infraestrutura global.
+            </p>
+</header>
+<!-- Authentication Panel -->
+<section class="glass-panel w-full max-w-md rounded-xl p-10 shadow-2xl overflow-hidden relative group">
+<!-- Light leak effect on card -->
+<div class="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-white/10 to-transparent blur-3xl opacity-20 pointer-events-none group-hover:opacity-30 transition-opacity duration-700"></div>
+<form class="space-y-8 relative z-10">
+<div class="space-y-6">
+<!-- Identity Input -->
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-outline-variant block">Identificador Corporativo</label>
+<div class="relative flex items-center border-b border-white/20 input-focus-glow transition-all duration-300">
+<span class="material-symbols-outlined text-white/40 mr-3">person</span>
+<input class="bg-transparent border-none text-white w-full py-4 px-0 focus:ring-0 placeholder:text-white/20 font-data-mono text-data-mono" placeholder="ex: diretor.executivo@rjt.global" type="text"/>
+</div>
+</div>
+<!-- Security Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<label class="font-label-caps text-label-caps text-outline-variant block">Chave de Segurança</label>
+<button class="text-xs text-electric-blue/70 hover:text-electric-blue transition-colors font-label-caps" type="button">Esqueceu a chave?</button>
+</div>
+<div class="relative flex items-center border-b border-white/20 input-focus-glow transition-all duration-300">
+<span class="material-symbols-outlined text-white/40 mr-3">lock</span>
+<input class="bg-transparent border-none text-white w-full py-4 px-0 focus:ring-0 placeholder:text-white/20 font-data-mono text-data-mono" placeholder="••••••••••••" type="password"/>
+<button class="text-white/40 hover:text-white transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MFA / Workspace Toggle -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-electric-blue" style="font-variation-settings: 'FILL' 1;">hub</span>
+<div>
+<p class="text-[12px] font-bold text-white leading-none">Global Nexus Core</p>
+<p class="text-[10px] text-outline-variant leading-none mt-1">Ambiente Padrão</p>
+</div>
+</div>
+<button class="text-[10px] font-label-caps text-electric-blue border border-electric-blue/30 px-2 py-1 rounded hover:bg-electric-blue/10 transition-all" type="button">Alterar</button>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-electric-blue text-tertiary font-label-caps py-5 rounded-lg flex items-center justify-center gap-3 hover:bg-white hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] active:scale-95 transition-all duration-300" type="submit">
+<span>AUTENTICAR ACESSO</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</form>
+<!-- Bottom Multi-factor Link -->
+<div class="mt-8 pt-8 border-t border-white/10 flex justify-center">
+<button class="flex items-center gap-2 text-outline-variant hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-caps text-[11px]">Utilizar Hardware Security Key (FIDO2)</span>
+</button>
+</div>
+</section>
+<!-- Footer / Trust Indicators -->
+<footer class="mt-12 w-full max-w-4xl flex flex-col md:flex-row items-center justify-between gap-8 opacity-60">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-status-success pulse-status"></div>
+<span class="font-data-mono text-[10px] text-white tracking-widest">ENCRYPTED END-TO-END</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-white/50">shield</span>
+<span class="font-data-mono text-[10px] text-white tracking-widest">ISO 27001 COMPLIANT</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-[10px] text-outline-variant">© 2024 RJT GLOBAL SYSTEMS</span>
+<div class="h-4 w-[1px] bg-white/20"></div>
+<div class="flex gap-4">
+<a class="text-[10px] font-label-caps text-white hover:text-electric-blue transition-colors" href="#">Privacidade</a>
+<a class="text-[10px] font-label-caps text-white hover:text-electric-blue transition-colors" href="#">Suporte</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- Floating Atmosphere Elements -->
+<div class="fixed top-12 right-12 flex flex-col items-end gap-1 opacity-40">
+<span class="font-data-mono text-[10px] text-white uppercase tracking-tighter">Latência do Sistema</span>
+<span class="font-data-mono text-[14px] text-electric-blue">14ms <span class="text-[8px] text-white/50">GLOBAL</span></span>
+</div>
+<script>
+        // Micro-interaction for input fields
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.borderColor = '#00F0FF';
+                input.parentElement.querySelector('.material-symbols-outlined').style.color = '#00F0FF';
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                input.parentElement.querySelector('.material-symbols-outlined').style.color = 'rgba(255, 255, 255, 0.4)';
+            });
+        });
+
+        // Form submission prevent default for demo
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span><span>VALIDANDO...</span>';
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span><span>ACESSO AUTORIZADO</span>';
+                btn.classList.add('bg-status-success', 'text-white');
+                btn.classList.remove('bg-electric-blue');
+            }, 2000);
+        });
+    </script>
+</body></html>
