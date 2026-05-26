@@ -2,42 +2,80 @@ import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
-import { operationsAnalyticsView } from "./data/operationsMetrics";
 
-const {
-  kpis: operationsKpis,
-  productionTrend,
-  efficiencyTrend,
-  downtimeTrend,
-  downtimeAnalysis,
-  linePerformance,
-  productionMonitoring,
-  insights,
-  tableRows: operationsRows,
-} = operationsAnalyticsView;
+const budgetKpis = [
+  { icon: "account_balance", label: "Budget Total", value: "R$ 4.82M", delta: "FY 2026", tone: "text-secondary", border: "border-primary", progress: 76 },
+  { icon: "payments", label: "Realizado", value: "R$ 3.94M", delta: "81.7%", tone: "text-status-success", border: "border-secondary", progress: 82 },
+  { icon: "sync_alt", label: "Desvio", value: "+R$ 184k", delta: "+3.8%", tone: "text-status-critical", border: "border-status-critical", progress: 38 },
+  { icon: "query_stats", label: "Forecast", value: "R$ 5.06M", delta: "+5.1%", tone: "text-status-critical", border: "border-outline-variant", progress: 84 },
+  { icon: "savings", label: "Savings Gap", value: "R$ 126k", delta: "a capturar", tone: "text-secondary", border: "border-secondary-container", progress: 49 },
+  { icon: "warning", label: "Budget Alerts", value: "7", delta: "3 críticos", tone: "text-status-critical", border: "border-status-critical", progress: 31 },
+];
 
-export function OperationsAnalyticsPage() {
+const budgetTrend = [48, 52, 57, 61, 66, 64, 71, 76, 79, 83, 86, 88];
+const actualTrend = [44, 49, 55, 60, 63, 67, 70, 73, 78, 81, 85, 91];
+const varianceTrend = [28, 32, 25, 38, 41, 34];
+
+const budgetByArea = [
+  ["Financeiro", "R$ 1.42M", 29, "bg-primary"],
+  ["Comercial", "R$ 842k", 17, "bg-secondary"],
+  ["Compras", "R$ 769k", 16, "bg-secondary-container"],
+  ["Operações", "R$ 1.21M", 25, "bg-outline"],
+  ["RH", "R$ 584k", 12, "bg-surface-tint"],
+] as const;
+
+const areaPerformance = [
+  ["Financeiro", "R$ 1.42M", "+R$ 73k", "Over"],
+  ["Comercial", "R$ 842k", "+R$ 24k", "Watch"],
+  ["Compras", "R$ 769k", "-R$ 42k", "Under"],
+  ["Operações", "R$ 1.21M", "+R$ 96k", "Over"],
+  ["RH", "R$ 584k", "+R$ 33k", "Watch"],
+] as const;
+
+const forecastControls = [
+  ["Forecast Accuracy", "92.4%", 92, "bg-status-success"],
+  ["Committed Spend", "81.7%", 82, "bg-secondary"],
+  ["Unplanned Expense", "R$ 184k", 38, "bg-status-critical"],
+  ["Savings Pipeline", "R$ 126k", 49, "bg-primary"],
+] as const;
+
+const insights = [
+  { icon: "psychology", label: "AI Budget Recommendation", text: "Consolidar alertas de Operações e Financeiro para reduzir o desvio projetado antes do fechamento mensal.", tone: "text-secondary", bg: "bg-secondary-container/10" },
+  { icon: "warning", label: "Variance Alert", text: "Operações e Financeiro concentram 91% do excesso orçamentário projetado para o ciclo atual.", tone: "text-status-critical", bg: "bg-error-container/40" },
+  { icon: "monitoring", label: "Forecast Anomaly", text: "Compras está abaixo do orçamento, mas pode inverter tendência com reposição de matéria-prima Classe A.", tone: "text-status-critical", bg: "bg-status-critical/10" },
+  { icon: "stars", label: "Strategic Highlight", text: "Pipeline de economia em compras cobre 68% do desvio comercial previsto.", tone: "text-status-success", bg: "bg-status-success/10" },
+];
+
+const budgetRows = [
+  ["Investimentos", "Financeiro", "R$ 750k", "+R$ 73k", "Over"],
+  ["Portal Saint Gobain", "Comercial", "R$ 73k", "+R$ 24k", "Watch"],
+  ["Matéria-prima", "Compras", "R$ 769k", "-R$ 42k", "Under"],
+  ["Manutenção Transporte", "Operações", "R$ 214k", "+R$ 38k", "Over"],
+  ["Despesas Judiciais", "RH", "R$ 10k", "On track", "Stable"],
+] as const;
+
+export function BudgetIntelligencePage() {
   return (
     <>
       <PageHeader
-        eyebrow="OPERATIONS ANALYTICS"
-        title="Executive Operational Intelligence & Production Analytics"
+        eyebrow="BUDGET INTELLIGENCE"
+        title="Executive Budget Control & Forecast Analytics"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
-              <MaterialIcon name="factory" className="text-[18px]" />
-              GLOBAL OPERATIONS
+              <MaterialIcon name="calendar_month" className="text-[18px]" />
+              ORÇAMENTO 2026
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              OPERATIONS REPORT
+              BUDGET REPORT
             </button>
           </>
         }
       />
 
       <section className="grid grid-cols-1 gap-gutter md:grid-cols-2 xl:grid-cols-6">
-        {operationsKpis.map((kpi) => (
+        {budgetKpis.map((kpi) => (
           <GlassCard key={kpi.label} className={`flex min-h-[154px] flex-col justify-between border-l-4 p-5 ${kpi.border}`}>
             <div className="flex items-start justify-between gap-4">
               <MaterialIcon name={kpi.icon} className="text-outline" />
@@ -54,16 +92,16 @@ export function OperationsAnalyticsPage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Operations Analytics" subtitle="Production trends, efficiency evolution and downtime analysis" icon="analytics" />
+          <SectionTitle title="Budget Analytics" subtitle="Orçado, realizado, forecast e desvios por ciclo" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Production Trends" meta="Local production records by line" />
-              <BarChart values={productionTrend} activeIndex={productionTrend.length - 1} />
+              <ChartHeader title="Budget vs Actual" meta="Evolução mensal consolidada" />
+              <DualTrendChart />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Downtime Analysis" meta="Downtime grouped by reason" />
+              <ChartHeader title="Budget by Area" meta="Distribuição orçamentária por módulo" />
               <div className="mt-6 space-y-4">
-                {downtimeAnalysis.map(([label, value, percentage, color]) => (
+                {budgetByArea.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
                     <div className="flex justify-between gap-4 text-sm">
                       <span className="font-medium text-on-surface">{label}</span>
@@ -77,24 +115,24 @@ export function OperationsAnalyticsPage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
-            <OperationsMetric label="Efficiency Evolution" value={operationsKpis[1].value} note="Weighted local records" positive={operationsKpis[1].tone.includes("success")} />
-            <OperationsMetric label="Productivity Heatmap" value={operationsKpis[5].value} note="Indexed output" bordered />
-            <OperationsMetric label="Operational Performance" value={operationsKpis[2].value} note="OEE local model" />
+            <BudgetMetric label="Budget Usage" value="81.7%" note="Realizado no ciclo" />
+            <BudgetMetric label="Variance" value="+3.8%" note="Acima do planejado" bordered />
+            <BudgetMetric label="Forecast Risk" value="R$ 184k" note="Desvio projetado" />
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Line Performance" subtitle="Efficiency, OEE and bottleneck status" icon="leaderboard" />
+          <SectionTitle title="Area Performance" subtitle="Orçamento por área e status executivo" icon="leaderboard" />
           <div className="mt-7 space-y-4">
-            {linePerformance.map(([name, efficiency, oee, status]) => (
+            {areaPerformance.map(([name, budget, variance, status]) => (
               <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
                 <div className="mb-3 flex items-center justify-between gap-4">
                   <span className="text-sm font-bold text-primary">{name}</span>
-                  <span className="font-data-mono text-sm text-primary">{efficiency}</span>
+                  <span className="font-data-mono text-sm text-primary">{budget}</span>
                 </div>
                 <div className="flex items-center justify-between font-data-mono text-[11px] text-outline">
-                  <span>{oee} OEE</span>
-                  <span className={status === "Bottleneck" || status === "Watch" ? "text-status-critical" : "text-status-success"}>{status}</span>
+                  <span className={variance.startsWith("+") ? "text-status-critical" : "text-status-success"}>{variance}</span>
+                  <span>{status}</span>
                 </div>
               </div>
             ))}
@@ -102,14 +140,14 @@ export function OperationsAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-7">
-          <SectionTitle title="Production Monitoring" subtitle="Machine status, capacity, process monitoring and yield" icon="precision_manufacturing" />
+          <SectionTitle title="Forecast Center" subtitle="Acurácia, despesas não planejadas e pipeline de economia" icon="query_stats" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
-              <ChartHeader title="Efficiency vs Downtime" meta="Operational stability by period" />
-              <DualBarChart />
+              <ChartHeader title="Variance Trend" meta="Desvio mensal e pressão de forecast" />
+              <VarianceChart />
             </div>
             <div className="space-y-4">
-              {productionMonitoring.map(([label, value, progress, color]) => (
+              {forecastControls.map(([label, value, progress, color]) => (
                 <div key={label} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="font-label-caps text-[10px] text-outline">{label}</span>
@@ -123,7 +161,7 @@ export function OperationsAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recommendations, alerts, anomalies and production risks" icon="tips_and_updates" />
+          <SectionTitle title="Executive Insights" subtitle="Recomendações, alertas e anomalias orçamentárias" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -137,40 +175,24 @@ export function OperationsAnalyticsPage() {
           </div>
         </GlassCard>
 
-        <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Productivity Heatmap" subtitle="Process monitoring and bottleneck exposure" icon="grid_view" />
-          <div className="mt-7 grid grid-cols-5 gap-2">
-            {Array.from({ length: 25 }).map((_, index) => (
-              <HeatmapCell key={index} index={index} />
-            ))}
-          </div>
-          <div className="mt-6 rounded-lg border border-error/10 bg-error-container/20 p-4">
-            <div className="flex items-center gap-3">
-              <MaterialIcon name="report_problem" className="text-status-critical" />
-              <span className="font-label-caps text-[10px] text-outline">BOTTLENECK RISK</span>
-              <span className="ml-auto font-data-mono text-sm text-status-critical">LINE C</span>
-            </div>
-          </div>
-        </GlassCard>
-
-        <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Operations Tables" subtitle="Production orders, machine logs, downtime records, productivity reports and history" icon="table_chart" />
+        <GlassCard className="p-8 xl:col-span-12">
+          <SectionTitle title="Budget Tables" subtitle="Linhas orçamentárias, centros de custo, realizado, variação e status" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["OPERATIONS LINE", "SECTION", "VALUE", "METRIC", "STATUS"].map((heading) => (
+                  {["BUDGET LINE", "AREA", "BUDGET", "VARIANCE", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {operationsRows.map(([line, section, value, metric, status]) => (
+                {budgetRows.map(([line, area, budget, variance, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
-                    <td className="py-4 text-on-surface-variant">{section}</td>
-                    <td className="py-4 font-data-mono text-primary">{value}</td>
-                    <td className={`py-4 font-data-mono ${metric.startsWith("+") || metric === "Healthy" || metric === "On schedule" ? "text-status-success" : "text-status-critical"}`}>{metric}</td>
+                    <td className="py-4 text-on-surface-variant">{area}</td>
+                    <td className="py-4 font-data-mono text-primary">{budget}</td>
+                    <td className={`py-4 font-data-mono ${variance.startsWith("+") ? "text-status-critical" : "text-status-success"}`}>{variance}</td>
                     <td className="py-4">
                       <span className="rounded bg-surface-container px-2 py-1 font-label-caps text-[9px] text-primary">{status}</span>
                     </td>
@@ -206,60 +228,42 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">MES MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">BUDGET MODEL</span>
     </div>
   );
 }
 
-function BarChart({ values, activeIndex }: { values: number[]; activeIndex: number }) {
+function DualTrendChart() {
   return (
     <div className="mt-6 flex h-64 items-end gap-2 border-b border-outline/10 pb-2">
-      {values.map((height, index) => (
-        <div
-          key={`${height}-${index}`}
-          className={`w-full rounded-t transition-colors ${index === activeIndex ? "bg-primary" : "bg-secondary/20 hover:bg-secondary/40"}`}
-          style={{ height: `${height}%` }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function DualBarChart() {
-  return (
-    <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
-      {efficiencyTrend.slice(0, 6).map((value, index) => (
-        <div key={`${value}-${index}`} className="flex h-full items-end gap-1">
-          <div className="w-full rounded-t bg-secondary/70" style={{ height: `${value + 8}%` }} />
-          <div className="w-full rounded-t bg-status-critical/35" style={{ height: `${downtimeTrend[index]}%` }} />
+      {budgetTrend.map((height, index) => (
+        <div key={`${height}-${index}`} className="flex h-full w-full items-end gap-1">
+          <div className="w-full rounded-t bg-secondary/25" style={{ height: `${height}%` }} />
+          <div className="w-full rounded-t bg-primary" style={{ height: `${actualTrend[index]}%` }} />
         </div>
       ))}
     </div>
   );
 }
 
-function OperationsMetric({ label, value, note, bordered = false, positive = false }: { label: string; value: string; note: string; bordered?: boolean; positive?: boolean }) {
+function VarianceChart() {
   return (
-    <div className={`text-center ${bordered ? "border-y border-glass-stroke py-4 md:border-x md:border-y-0 md:py-0" : ""}`}>
-      <p className="font-label-caps text-[10px] text-outline">{label}</p>
-      <p className={`font-data-mono text-headline-lg ${positive ? "text-status-success" : "text-primary"}`}>{value}</p>
-      <p className="text-xs text-outline">{note}</p>
+    <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
+      {varianceTrend.map((value, index) => (
+        <div key={`${value}-${index}`} className="flex h-full items-end">
+          <div className={`w-full rounded-t ${value > 35 ? "bg-status-critical/60" : "bg-status-success/55"}`} style={{ height: `${value + 20}%` }} />
+        </div>
+      ))}
     </div>
   );
 }
 
-function HeatmapCell({ index }: { index: number }) {
-  const bottleneck = [7, 12, 13, 18];
-  const watch = [3, 8, 16, 21];
-  const optimal = [1, 5, 10, 15, 22];
-  const label = index === 0 ? "A" : index === 4 ? "B" : index === 20 ? "C" : index === 24 ? "D" : "";
-  const color = bottleneck.includes(index)
-    ? "bg-status-critical/70"
-    : watch.includes(index)
-      ? "bg-status-critical/25"
-      : optimal.includes(index)
-        ? "bg-status-success/45"
-        : "bg-surface-container";
-
-  return <div className={`flex aspect-square items-center justify-center rounded-sm font-data-mono text-[10px] ${color} ${label ? "opacity-40" : ""}`}>{label}</div>;
+function BudgetMetric({ label, value, note, bordered = false }: { label: string; value: string; note: string; bordered?: boolean }) {
+  return (
+    <div className={`text-center ${bordered ? "border-y border-glass-stroke py-4 md:border-x md:border-y-0 md:py-0" : ""}`}>
+      <p className="font-label-caps text-[10px] text-outline">{label}</p>
+      <p className="font-data-mono text-headline-lg text-primary">{value}</p>
+      <p className="text-xs text-outline">{note}</p>
+    </div>
+  );
 }

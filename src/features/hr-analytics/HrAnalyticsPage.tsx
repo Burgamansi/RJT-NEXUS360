@@ -2,64 +2,20 @@ import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
+import { hrAnalyticsView } from "./data/hrMetrics";
 
-const hrKpis = [
-  { icon: "groups", label: "Headcount", value: "2,410", delta: "+4.8%", tone: "text-status-success", border: "border-secondary", progress: 78 },
-  { icon: "person_remove", label: "Turnover", value: "8.6%", delta: "-1.2pp", tone: "text-status-success", border: "border-status-success", progress: 36 },
-  { icon: "event_busy", label: "Absenteeism", value: "3.1%", delta: "+0.4pp", tone: "text-status-critical", border: "border-status-critical", progress: 31 },
-  { icon: "school", label: "Training Hours", value: "18.4k", delta: "+11.6%", tone: "text-status-success", border: "border-secondary-container", progress: 69 },
-  { icon: "workspace_premium", label: "Performance Score", value: "86.2", delta: "+3.8", tone: "text-secondary", border: "border-primary", progress: 86 },
-  { icon: "schedule", label: "Overtime Cost", value: "$482k", delta: "-6.1%", tone: "text-status-success", border: "border-outline-variant", progress: 42 },
-];
-
-const hiringTrend = [42, 48, 46, 53, 57, 61, 58, 66, 71, 68, 75, 79];
-const turnoverTrend = [56, 52, 49, 47, 45, 43, 42, 39, 38, 36, 34, 32];
-const absenteeismTrend = [30, 34, 31, 36, 33, 38, 35, 39, 37, 42, 40, 41];
-
-const employeeDistribution = [
-  ["Operations", "862", 36, "bg-primary"],
-  ["Commercial", "514", 21, "bg-secondary"],
-  ["Technology", "396", 16, "bg-secondary-container"],
-  ["Corporate", "338", 14, "bg-outline"],
-  ["Customer Success", "300", 13, "bg-surface-tint"],
-] as const;
-
-const departmentPerformance = [
-  ["Technology", "91.4", "96%", "+4.2"],
-  ["Operations", "84.8", "88%", "+1.1"],
-  ["Commercial", "82.1", "79%", "-2.3"],
-  ["Corporate", "87.6", "92%", "+2.8"],
-  ["Customer Success", "89.2", "94%", "+3.5"],
-] as const;
-
-const trainingMatrix = [
-  ["Leadership Track", "418 enrolled", 76, "bg-primary"],
-  ["Compliance", "97% complete", 97, "bg-status-success"],
-  ["Technical Upskilling", "642 enrolled", 68, "bg-secondary"],
-  ["Safety & Operations", "91% complete", 91, "bg-secondary-container"],
-] as const;
-
-const competencies = [
-  ["Leadership", "84.1", "+5.2"],
-  ["Technical Depth", "88.6", "+3.8"],
-  ["Execution", "86.9", "+2.1"],
-  ["Customer Focus", "90.4", "+4.6"],
-] as const;
-
-const insights = [
-  { icon: "psychology", label: "AI Workforce Recommendation", text: "Prioritize retention plans for senior operations roles in regions with overtime concentration.", tone: "text-secondary", bg: "bg-secondary-container/10" },
-  { icon: "warning", label: "Retention Risk", text: "Commercial leadership layer shows elevated resignation probability over the next two cycles.", tone: "text-status-critical", bg: "bg-error-container/40" },
-  { icon: "speed", label: "Productivity Alert", text: "Absenteeism and overtime correlation increased in Factory Cluster B for three consecutive weeks.", tone: "text-status-critical", bg: "bg-status-critical/10" },
-  { icon: "data_thresholding", label: "Workforce Anomaly", text: "Training completion is high, but certification conversion is lagging in technology squads.", tone: "text-status-success", bg: "bg-status-success/10" },
-];
-
-const hrRows = [
-  ["Executive Leadership", "Employees", "84", "98.2", "Stable"],
-  ["Operations", "Departments", "862", "84.8", "Watch"],
-  ["Factory Cluster B", "Attendance", "3.9%", "+0.7pp", "Monitor"],
-  ["Commercial Directors", "Performance", "82.1", "-2.3", "Risk"],
-  ["Technical Upskilling", "Training Records", "642", "68%", "Active"],
-] as const;
+const {
+  kpis: hrKpis,
+  hiringTrend,
+  turnoverTrend,
+  absenteeismTrend,
+  employeeDistribution,
+  departmentPerformance,
+  trainingMatrix,
+  competencies,
+  insights,
+  tableRows: hrRows,
+} = hrAnalyticsView;
 
 export function HrAnalyticsPage() {
   return (
@@ -102,11 +58,11 @@ export function HrAnalyticsPage() {
           <SectionTitle title="Workforce Analytics" subtitle="Distribution, performance, hiring and workforce movement" icon="groups" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Hiring Trends" meta="New hires across trailing 12 months" />
-              <BarChart values={hiringTrend} activeIndex={10} />
+              <ChartHeader title="Hiring Trends" meta="Admissions from consolidated HR workbook" />
+              <BarChart values={hiringTrend} activeIndex={hiringTrend.length - 1} />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Employee Distribution" meta="2,410 active employees" />
+              <ChartHeader title="Employee Distribution" meta="Current local HR data model" />
               <div className="mt-6 space-y-4">
                 {employeeDistribution.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
@@ -122,9 +78,9 @@ export function HrAnalyticsPage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
-            <PeopleMetric label="Turnover Evolution" value="-1.2pp" note="YoY voluntary attrition" positive />
-            <PeopleMetric label="Absenteeism Trends" value="3.1%" note="Rolling 90 days" bordered />
-            <PeopleMetric label="Department Score" value="86.2" note="Weighted performance" />
+            <PeopleMetric label="Turnover Evolution" value={hrKpis[1].delta} note="Against 6% target" positive={hrKpis[1].tone.includes("success")} />
+            <PeopleMetric label="Absenteeism Trends" value={hrKpis[2].value} note="Current month impact" bordered />
+            <PeopleMetric label="Department Score" value="A definir" note="Awaiting performance source" />
           </div>
         </GlassCard>
 
@@ -192,7 +148,7 @@ export function HrAnalyticsPage() {
                   <span className="font-data-mono text-sm font-bold text-primary">{score}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <ProgressBar value={Number(score)} className="bg-secondary" />
+                  <ProgressBar value={Number.isFinite(Number(score)) ? Number(score) : 0} className="bg-secondary" />
                   <span className="ml-4 font-data-mono text-[11px] text-status-success">{change}</span>
                 </div>
               </div>

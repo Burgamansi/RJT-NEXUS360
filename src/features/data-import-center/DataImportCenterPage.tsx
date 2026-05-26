@@ -1,43 +1,62 @@
+import { importModuleRegistry, importRegistrySummary } from "../../shared/data/importRegistry";
 import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
-import { operationsAnalyticsView } from "./data/operationsMetrics";
 
-const {
-  kpis: operationsKpis,
-  productionTrend,
-  efficiencyTrend,
-  downtimeTrend,
-  downtimeAnalysis,
-  linePerformance,
-  productionMonitoring,
-  insights,
-  tableRows: operationsRows,
-} = operationsAnalyticsView;
+const importKpis = [
+  { icon: "upload_file", label: "Files Ready", value: `${importRegistrySummary.readyModules}`, delta: "CSV/XLSX", tone: "text-secondary", border: "border-secondary", progress: 74 },
+  { icon: "table_view", label: "Mapped Columns", value: `${importRegistrySummary.mappedColumns}`, delta: "required", tone: "text-status-success", border: "border-status-success", progress: 86 },
+  { icon: "rule", label: "Validation Pass", value: `${importRegistrySummary.averageReadiness}%`, delta: "schema ready", tone: "text-status-success", border: "border-primary", progress: importRegistrySummary.averageReadiness },
+  { icon: "error", label: "Data Issues", value: "A definir", delta: "runtime", tone: "text-outline", border: "border-status-critical", progress: 0 },
+  { icon: "database", label: "Target Modules", value: `${importRegistrySummary.targetModules}`, delta: "active", tone: "text-secondary", border: "border-secondary-container", progress: 88 },
+  { icon: "history", label: "Imports Month", value: "A definir", delta: "no backend", tone: "text-outline", border: "border-outline-variant", progress: 0 },
+];
 
-export function OperationsAnalyticsPage() {
+const importTrend = [42, 46, 49, 53, 58, 62, 66, 71, 76, 80, 84, 88];
+const validationTrend = [64, 68, 72, 76, 79, 83];
+const issueTrend = [42, 38, 35, 31, 28, 24];
+
+const moduleTemplates = importModuleRegistry.map((item) => [item.module, item.formats, item.readiness, item.color] as const);
+const mappingRules = importModuleRegistry.map((item) => [item.module, item.requiredColumns.slice(0, 6).join(", "), item.status] as const);
+const validationChecks = [
+  ["Required Fields", `${importRegistrySummary.averageReadiness}%`, importRegistrySummary.averageReadiness, "bg-status-success"],
+  ["Date Format", "Template", 72, "bg-secondary"],
+  ["Currency Parsing", "Template", 68, "bg-primary"],
+  ["Duplicate Rows", "A definir", 0, "bg-status-critical"],
+] as const;
+
+const insights = [
+  { icon: "psychology", label: "AI Import Recommendation", text: "Padronizar Compras primeiro: esse Excel sera a ponte entre fornecedores, estoque e orcamento.", tone: "text-secondary", bg: "bg-secondary-container/10" },
+  { icon: "warning", label: "Data Quality Alert", text: "Arquivos financeiros usam CSV valido, mas o XLSX original nao abriu como pasta de trabalho padrao.", tone: "text-status-critical", bg: "bg-error-container/40" },
+  { icon: "monitoring", label: "Mapping Risk", text: "Campos de valor, data e centro de custo precisam de normalizacao antes de alimentar dashboards consolidados.", tone: "text-status-critical", bg: "bg-status-critical/10" },
+  { icon: "stars", label: "Strategic Highlight", text: "RH ja possui estrutura suficiente para importacao inicial: indicadores, atestados e turnover.", tone: "text-status-success", bg: "bg-status-success/10" },
+];
+
+const importRows = importModuleRegistry.map((item) => [item.source, item.module, `${item.requiredColumns.length} cols`, item.status, item.formats] as const);
+
+export function DataImportCenterPage() {
   return (
     <>
       <PageHeader
-        eyebrow="OPERATIONS ANALYTICS"
-        title="Executive Operational Intelligence & Production Analytics"
+        eyebrow="DATA IMPORT CENTER"
+        title="Excel & CSV Intake for Nexus360 Modules"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
-              <MaterialIcon name="factory" className="text-[18px]" />
-              GLOBAL OPERATIONS
+              <MaterialIcon name="upload_file" className="text-[18px]" />
+              IMPORT TEMPLATE
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
-              <MaterialIcon name="download" className="text-[18px]" />
-              OPERATIONS REPORT
+              <MaterialIcon name="rule" className="text-[18px]" />
+              VALIDATION CENTER
             </button>
           </>
         }
       />
 
       <section className="grid grid-cols-1 gap-gutter md:grid-cols-2 xl:grid-cols-6">
-        {operationsKpis.map((kpi) => (
+        {importKpis.map((kpi) => (
           <GlassCard key={kpi.label} className={`flex min-h-[154px] flex-col justify-between border-l-4 p-5 ${kpi.border}`}>
             <div className="flex items-start justify-between gap-4">
               <MaterialIcon name={kpi.icon} className="text-outline" />
@@ -54,16 +73,16 @@ export function OperationsAnalyticsPage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Operations Analytics" subtitle="Production trends, efficiency evolution and downtime analysis" icon="analytics" />
+          <SectionTitle title="Import Pipeline" subtitle="Upload, mapping, validation and module routing" icon="account_tree" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Production Trends" meta="Local production records by line" />
-              <BarChart values={productionTrend} activeIndex={productionTrend.length - 1} />
+              <ChartHeader title="Import Throughput" meta="Arquivos processados por ciclo" />
+              <BarChart values={importTrend} activeIndex={10} />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Downtime Analysis" meta="Downtime grouped by reason" />
+              <ChartHeader title="Module Templates" meta="Cobertura de mapeamento por area" />
               <div className="mt-6 space-y-4">
-                {downtimeAnalysis.map(([label, value, percentage, color]) => (
+                {moduleTemplates.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
                     <div className="flex justify-between gap-4 text-sm">
                       <span className="font-medium text-on-surface">{label}</span>
@@ -77,39 +96,36 @@ export function OperationsAnalyticsPage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
-            <OperationsMetric label="Efficiency Evolution" value={operationsKpis[1].value} note="Weighted local records" positive={operationsKpis[1].tone.includes("success")} />
-            <OperationsMetric label="Productivity Heatmap" value={operationsKpis[5].value} note="Indexed output" bordered />
-            <OperationsMetric label="Operational Performance" value={operationsKpis[2].value} note="OEE local model" />
+            <ImportMetric label="Upload" value="CSV/XLSX" note="Formatos aceitos" />
+            <ImportMetric label="Mapping" value={`${importRegistrySummary.mappedColumns}`} note="Colunas obrigatorias" bordered />
+            <ImportMetric label="Validation" value={`${importRegistrySummary.averageReadiness}%`} note="Schema readiness" positive />
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Line Performance" subtitle="Efficiency, OEE and bottleneck status" icon="leaderboard" />
+          <SectionTitle title="Column Mapping" subtitle="Campos obrigatorios por modulo" icon="view_column" />
           <div className="mt-7 space-y-4">
-            {linePerformance.map(([name, efficiency, oee, status]) => (
-              <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
+            {mappingRules.map(([module, fields, status]) => (
+              <div key={module} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
                 <div className="mb-3 flex items-center justify-between gap-4">
-                  <span className="text-sm font-bold text-primary">{name}</span>
-                  <span className="font-data-mono text-sm text-primary">{efficiency}</span>
+                  <span className="text-sm font-bold text-primary">{module}</span>
+                  <span className={status === "Ready" ? "font-data-mono text-[11px] text-status-success" : "font-data-mono text-[11px] text-status-critical"}>{status}</span>
                 </div>
-                <div className="flex items-center justify-between font-data-mono text-[11px] text-outline">
-                  <span>{oee} OEE</span>
-                  <span className={status === "Bottleneck" || status === "Watch" ? "text-status-critical" : "text-status-success"}>{status}</span>
-                </div>
+                <p className="text-xs leading-relaxed text-on-surface-variant">{fields}</p>
               </div>
             ))}
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-7">
-          <SectionTitle title="Production Monitoring" subtitle="Machine status, capacity, process monitoring and yield" icon="precision_manufacturing" />
+          <SectionTitle title="Validation Center" subtitle="Required fields, formats, currency parsing and duplicates" icon="rule" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
-              <ChartHeader title="Efficiency vs Downtime" meta="Operational stability by period" />
+              <ChartHeader title="Validation vs Issues" meta="Qualidade de dados por importacao" />
               <DualBarChart />
             </div>
             <div className="space-y-4">
-              {productionMonitoring.map(([label, value, progress, color]) => (
+              {validationChecks.map(([label, value, progress, color]) => (
                 <div key={label} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="font-label-caps text-[10px] text-outline">{label}</span>
@@ -123,7 +139,7 @@ export function OperationsAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recommendations, alerts, anomalies and production risks" icon="tips_and_updates" />
+          <SectionTitle title="Executive Insights" subtitle="Recomendacoes e riscos de qualidade dos dados" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -137,42 +153,26 @@ export function OperationsAnalyticsPage() {
           </div>
         </GlassCard>
 
-        <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Productivity Heatmap" subtitle="Process monitoring and bottleneck exposure" icon="grid_view" />
-          <div className="mt-7 grid grid-cols-5 gap-2">
-            {Array.from({ length: 25 }).map((_, index) => (
-              <HeatmapCell key={index} index={index} />
-            ))}
-          </div>
-          <div className="mt-6 rounded-lg border border-error/10 bg-error-container/20 p-4">
-            <div className="flex items-center gap-3">
-              <MaterialIcon name="report_problem" className="text-status-critical" />
-              <span className="font-label-caps text-[10px] text-outline">BOTTLENECK RISK</span>
-              <span className="ml-auto font-data-mono text-sm text-status-critical">LINE C</span>
-            </div>
-          </div>
-        </GlassCard>
-
-        <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Operations Tables" subtitle="Production orders, machine logs, downtime records, productivity reports and history" icon="table_chart" />
+        <GlassCard className="p-8 xl:col-span-12">
+          <SectionTitle title="Import History" subtitle="Arquivos, modulo destino, status, colunas e tipo" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["OPERATIONS LINE", "SECTION", "VALUE", "METRIC", "STATUS"].map((heading) => (
+                  {["FILE", "TARGET MODULE", "REQUIRED", "STATUS", "TYPE"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {operationsRows.map(([line, section, value, metric, status]) => (
-                  <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
-                    <td className="py-4 font-semibold text-primary">{line}</td>
-                    <td className="py-4 text-on-surface-variant">{section}</td>
-                    <td className="py-4 font-data-mono text-primary">{value}</td>
-                    <td className={`py-4 font-data-mono ${metric.startsWith("+") || metric === "Healthy" || metric === "On schedule" ? "text-status-success" : "text-status-critical"}`}>{metric}</td>
+                {importRows.map(([file, module, size, status, type]) => (
+                  <tr key={file} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
+                    <td className="py-4 font-semibold text-primary">{file}</td>
+                    <td className="py-4 text-on-surface-variant">{module}</td>
+                    <td className="py-4 font-data-mono text-primary">{size}</td>
+                    <td className={`py-4 font-data-mono ${status === "Ready" ? "text-status-success" : "text-status-critical"}`}>{status}</td>
                     <td className="py-4">
-                      <span className="rounded bg-surface-container px-2 py-1 font-label-caps text-[9px] text-primary">{status}</span>
+                      <span className="rounded bg-surface-container px-2 py-1 font-label-caps text-[9px] text-primary">{type}</span>
                     </td>
                   </tr>
                 ))}
@@ -206,7 +206,7 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">MES MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">IMPORT MODEL</span>
     </div>
   );
 }
@@ -228,17 +228,17 @@ function BarChart({ values, activeIndex }: { values: number[]; activeIndex: numb
 function DualBarChart() {
   return (
     <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
-      {efficiencyTrend.slice(0, 6).map((value, index) => (
+      {validationTrend.map((value, index) => (
         <div key={`${value}-${index}`} className="flex h-full items-end gap-1">
-          <div className="w-full rounded-t bg-secondary/70" style={{ height: `${value + 8}%` }} />
-          <div className="w-full rounded-t bg-status-critical/35" style={{ height: `${downtimeTrend[index]}%` }} />
+          <div className="w-full rounded-t bg-secondary/70" style={{ height: `${value + 4}%` }} />
+          <div className="w-full rounded-t bg-status-critical/35" style={{ height: `${issueTrend[index] + 12}%` }} />
         </div>
       ))}
     </div>
   );
 }
 
-function OperationsMetric({ label, value, note, bordered = false, positive = false }: { label: string; value: string; note: string; bordered?: boolean; positive?: boolean }) {
+function ImportMetric({ label, value, note, bordered = false, positive = false }: { label: string; value: string; note: string; bordered?: boolean; positive?: boolean }) {
   return (
     <div className={`text-center ${bordered ? "border-y border-glass-stroke py-4 md:border-x md:border-y-0 md:py-0" : ""}`}>
       <p className="font-label-caps text-[10px] text-outline">{label}</p>
@@ -246,20 +246,4 @@ function OperationsMetric({ label, value, note, bordered = false, positive = fal
       <p className="text-xs text-outline">{note}</p>
     </div>
   );
-}
-
-function HeatmapCell({ index }: { index: number }) {
-  const bottleneck = [7, 12, 13, 18];
-  const watch = [3, 8, 16, 21];
-  const optimal = [1, 5, 10, 15, 22];
-  const label = index === 0 ? "A" : index === 4 ? "B" : index === 20 ? "C" : index === 24 ? "D" : "";
-  const color = bottleneck.includes(index)
-    ? "bg-status-critical/70"
-    : watch.includes(index)
-      ? "bg-status-critical/25"
-      : optimal.includes(index)
-        ? "bg-status-success/45"
-        : "bg-surface-container";
-
-  return <div className={`flex aspect-square items-center justify-center rounded-sm font-data-mono text-[10px] ${color} ${label ? "opacity-40" : ""}`}>{label}</div>;
 }

@@ -2,56 +2,18 @@ import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
+import { financialAnalyticsView } from "./data/financialMetrics";
 
-const financialKpis = [
-  { icon: "payments", label: "Revenue", value: "$42.8M", delta: "+12.4%", tone: "text-status-success", border: "border-secondary", progress: 82 },
-  { icon: "query_stats", label: "EBITDA", value: "$13.9M", delta: "32.4%", tone: "text-secondary", border: "border-primary", progress: 64 },
-  { icon: "account_balance_wallet", label: "Net Profit", value: "$8.1M", delta: "+7.8%", tone: "text-status-success", border: "border-secondary-container", progress: 58 },
-  { icon: "sync_alt", label: "Cash Flow", value: "$5.6M", delta: "+$1.2M", tone: "text-status-success", border: "border-status-success", progress: 71 },
-  { icon: "stacked_line_chart", label: "Gross Margin", value: "68.1%", delta: "+2.1pp", tone: "text-status-success", border: "border-outline-variant", progress: 68 },
-  { icon: "receipt_long", label: "Operational Cost", value: "$24.7M", delta: "-3.2%", tone: "text-status-success", border: "border-status-critical", progress: 44 },
-];
-
-const revenueEvolution = [48, 52, 57, 61, 66, 63, 72, 78, 74, 81, 86, 92];
-const profitTrend = [38, 42, 39, 46, 51, 55, 57, 62, 61, 67, 70, 74];
-
-const expenseDistribution = [
-  ["People", "$8.4M", 34, "bg-primary"],
-  ["Operations", "$6.8M", 28, "bg-secondary"],
-  ["Technology", "$4.1M", 17, "bg-secondary-container"],
-  ["Logistics", "$3.2M", 13, "bg-outline"],
-  ["G&A", "$2.2M", 8, "bg-surface-tint"],
-] as const;
-
-const costCenters = [
-  ["Manufacturing", "$9.8M", "39.7%", "+1.8%"],
-  ["Commercial", "$5.1M", "20.6%", "-2.4%"],
-  ["Technology", "$4.1M", "16.6%", "+0.9%"],
-  ["Corporate", "$3.3M", "13.4%", "-4.1%"],
-  ["Logistics", "$2.4M", "9.7%", "+2.7%"],
-] as const;
-
-const cashFlow = [
-  ["Operating Inflow", "$18.4M", 84, "bg-status-success"],
-  ["Operating Outflow", "$12.8M", 58, "bg-status-critical"],
-  ["Liquidity Coverage", "142 days", 72, "bg-secondary"],
-  ["Projected Balance", "$31.6M", 66, "bg-primary"],
-] as const;
-
-const insights = [
-  { icon: "psychology", label: "AI Recommendation", text: "Renegotiate logistics contracts in LATAM before Q3 close. Estimated EBITDA upside: 1.4pp.", tone: "text-secondary", bg: "bg-secondary-container/10" },
-  { icon: "monitoring", label: "Anomaly Detection", text: "Administrative expenses are 6.8% above rolling baseline in two cost centers.", tone: "text-status-critical", bg: "bg-error-container/40" },
-  { icon: "shield", label: "Risk Alert", text: "Cash conversion cycle deteriorated by 4 days due to receivables aging in enterprise accounts.", tone: "text-status-critical", bg: "bg-status-critical/10" },
-  { icon: "stars", label: "Strategic Highlight", text: "Gross margin expansion remains sustainable with current product and supplier mix.", tone: "text-status-success", bg: "bg-status-success/10" },
-];
-
-const tableRows = [
-  ["Accounts Receivable", "Accounts", "$12.4M", "+9.2%", "Healthy"],
-  ["Enterprise Subscription", "Transactions", "$4.8M", "+14.0%", "Booked"],
-  ["Cloud Infrastructure", "Expenses", "$1.2M", "-3.6%", "Optimized"],
-  ["Industrial Operations", "Cost Centers", "$9.8M", "+1.8%", "Watch"],
-  ["Monthly EBITDA", "Monthly Comparisons", "$13.9M", "+7.4%", "Ahead"],
-] as const;
+const {
+  kpis: financialKpis,
+  revenueEvolution,
+  profitTrend,
+  expenseDistribution,
+  costCenters,
+  cashFlow,
+  insights,
+  tableRows,
+} = financialAnalyticsView;
 
 export function FinancialIntelligencePage() {
   return (
@@ -94,11 +56,11 @@ export function FinancialIntelligencePage() {
           <SectionTitle title="DRE Analytics" subtitle="Revenue, profit, margins and cost behavior" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Revenue Evolution" meta="Trailing 12 months" />
-              <BarChart values={revenueEvolution} activeIndex={10} />
+              <ChartHeader title="Revenue Evolution" meta="Local DRE sample from 2026 workbook" />
+              <BarChart values={revenueEvolution} activeIndex={revenueEvolution.length - 1} />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Expense Distribution" meta="$24.7M operating cost" />
+              <ChartHeader title="Expense Distribution" meta="Operating cost mapped from DRE sample" />
               <div className="mt-6 space-y-4">
                 {expenseDistribution.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">

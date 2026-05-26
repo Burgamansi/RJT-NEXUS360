@@ -2,57 +2,19 @@ import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
+import { purchasingAnalyticsView } from "./data/purchasingMetrics";
 
-const purchasingKpis = [
-  { icon: "shopping_cart", label: "Total Purchasing", value: "$18.7M", delta: "-2.8%", tone: "text-status-success", border: "border-secondary", progress: 74 },
-  { icon: "gpp_maybe", label: "Supplier Risk", value: "12.4%", delta: "+1.6pp", tone: "text-status-critical", border: "border-status-critical", progress: 42 },
-  { icon: "schedule", label: "Lead Time", value: "18.2d", delta: "-2.1d", tone: "text-status-success", border: "border-status-success", progress: 58 },
-  { icon: "price_change", label: "Cost Variance", value: "+3.7%", delta: "+0.9pp", tone: "text-status-critical", border: "border-outline-variant", progress: 37 },
-  { icon: "hub", label: "Critical Suppliers", value: "24", delta: "6 high risk", tone: "text-status-critical", border: "border-primary", progress: 49 },
-  { icon: "savings", label: "Savings Index", value: "$2.4M", delta: "+8.4%", tone: "text-status-success", border: "border-secondary-container", progress: 82 },
-];
-
-const purchasingEvolution = [46, 51, 49, 58, 62, 60, 68, 72, 70, 76, 81, 79];
-const leadTimeTrend = [70, 68, 66, 63, 61, 59, 58, 55, 53, 51, 49, 47];
-const deliveryTrend = [56, 61, 58, 64, 67, 70];
-
-const categorySpend = [
-  ["Raw Materials", "$7.6M", 41, "bg-primary"],
-  ["Technology", "$3.4M", 18, "bg-secondary"],
-  ["Logistics", "$2.8M", 15, "bg-secondary-container"],
-  ["Facilities", "$2.1M", 11, "bg-outline"],
-  ["Services", "$2.8M", 15, "bg-surface-tint"],
-] as const;
-
-const supplierRanking = [
-  ["Nippon Materials", "94.8", "98%", "Active"],
-  ["EuroPack GmbH", "89.1", "92%", "Active"],
-  ["LATAM Logistics", "76.4", "81%", "Watch"],
-  ["Orion Components", "72.8", "78%", "Risk"],
-  ["CloudWorks Enterprise", "91.7", "99%", "Active"],
-] as const;
-
-const supplierRisk = [
-  ["Financial Exposure", "$6.8M", 64, "bg-status-critical"],
-  ["Delivery Reliability", "91.2%", 91, "bg-status-success"],
-  ["Quality Compliance", "96.8%", 96, "bg-secondary"],
-  ["Contract Coverage", "84.5%", 84, "bg-primary"],
-] as const;
-
-const insights = [
-  { icon: "psychology", label: "AI Purchasing Recommendation", text: "Consolidate regional raw-material orders with top-tier suppliers to unlock an estimated 3.1% savings band.", tone: "text-secondary", bg: "bg-secondary-container/10" },
-  { icon: "warning", label: "Supplier Risk Alert", text: "Two critical suppliers show late-shipment probability above threshold for the next replenishment cycle.", tone: "text-status-critical", bg: "bg-error-container/40" },
-  { icon: "monitoring", label: "Cost Anomaly", text: "Electronics category variance is 4.6pp above contract index despite stable volumes.", tone: "text-status-critical", bg: "bg-status-critical/10" },
-  { icon: "account_tree", label: "Critical Dependency", text: "Single-source dependency remains concentrated in precision components across APAC operations.", tone: "text-status-success", bg: "bg-status-success/10" },
-];
-
-const purchasingRows = [
-  ["Nippon Materials", "Suppliers", "$3.8M", "94.8", "Preferred"],
-  ["PO-88421", "Purchase Orders", "$842k", "On time", "Released"],
-  ["Global Raw Materials MSA", "Contracts", "$7.6M", "18 months", "Active"],
-  ["LATAM Logistics", "Lead Times", "24.6d", "+4.2d", "Watch"],
-  ["Technology Components", "Category Analysis", "$3.4M", "+4.6%", "Review"],
-] as const;
+const {
+  kpis: purchasingKpis,
+  purchasingEvolution,
+  leadTimeTrend,
+  deliveryTrend,
+  categorySpend,
+  supplierRanking,
+  supplierRisk,
+  insights,
+  tableRows: purchasingRows,
+} = purchasingAnalyticsView;
 
 export function PurchasingIntelligencePage() {
   return (
@@ -95,11 +57,11 @@ export function PurchasingIntelligencePage() {
           <SectionTitle title="Procurement Analytics" subtitle="Purchasing evolution, supplier performance and category spend" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Purchasing Evolution" meta="Trailing 12 month spend pattern" />
-              <BarChart values={purchasingEvolution} activeIndex={10} />
+              <ChartHeader title="Purchasing Evolution" meta="Pending Excel import for 2026 purchasing data" />
+              <BarChart values={purchasingEvolution} activeIndex={purchasingEvolution.length - 1} />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Category Spend Analysis" meta="$18.7M purchasing distribution" />
+              <ChartHeader title="Category Spend Analysis" meta="Prepared for purchasing workbook mapping" />
               <div className="mt-6 space-y-4">
                 {categorySpend.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
@@ -115,9 +77,9 @@ export function PurchasingIntelligencePage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
-            <ProcurementMetric label="Supplier Performance" value="91.4" note="Weighted score" />
-            <ProcurementMetric label="Lead Time Trends" value="-2.1d" note="Rolling 90 days" positive bordered />
-            <ProcurementMetric label="Purchasing Distribution" value="41%" note="Raw material exposure" />
+            <ProcurementMetric label="Supplier Performance" value="A definir" note="Awaiting supplier score source" />
+            <ProcurementMetric label="Lead Time Trends" value="A definir" note="Awaiting delivery dates" bordered />
+            <ProcurementMetric label="Purchasing Distribution" value="A definir" note="Awaiting category spend" />
           </div>
         </GlassCard>
 
@@ -186,7 +148,7 @@ export function PurchasingIntelligencePage() {
             <div className="flex items-center gap-3">
               <MaterialIcon name="report_problem" className="text-status-critical" />
               <span className="font-label-caps text-[10px] text-outline">QUALITY INCIDENTS</span>
-              <span className="ml-auto font-data-mono text-sm text-status-critical">7 OPEN</span>
+              <span className="ml-auto font-data-mono text-sm text-status-critical">A DEFINIR</span>
             </div>
           </div>
         </GlassCard>
