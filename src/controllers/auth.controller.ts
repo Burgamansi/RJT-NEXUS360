@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
 import { userRepository, companyRepository } from "../repositories/index.js";
-import bcrypt from "bcryptjs";
+// bcryptjs loaded lazily to avoid esbuild bundling issues on Vercel
+async function getBcrypt() {
+  const mod = await import("bcryptjs");
+  return mod.default ?? (mod as any);
+}
 import { auditService } from "../services/audit.service.js";
 import { checkPlanLimit } from "../services/plan.service.js";
 
@@ -29,6 +33,7 @@ export const authController = {
       const companyId = await companyRepository.create({ name: companyName });
 
       // Create user
+      const bcrypt = await getBcrypt();
       const passwordHash = await bcrypt.hash(password, 10);
       const userId = await userRepository.create({
         name,
@@ -67,6 +72,7 @@ export const authController = {
         return res.status(401).json({ success: false, error: "Credenciais inválidas" });
       }
 
+      const bcrypt = await getBcrypt();
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
         await auditService.logAction(null, null, "login_failed", "auth", null, { email }, "error");

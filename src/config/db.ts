@@ -1,17 +1,20 @@
-import { createClient } from "@libsql/client";
 import dotenv from "dotenv";
+import type { Client } from "@libsql/client";
 
 dotenv.config();
 
-const url = process.env.TURSO_DATABASE_URL || "file:local.db";
-const authToken = process.env.TURSO_AUTH_TOKEN;
-
-export const db = createClient({
-  url,
-  authToken,
-});
+// Lazy-initialized: createClient() deferred to initDb() to avoid bundling
+// @libsql/client native addon at module load time (causes ERR_MODULE_NOT_FOUND on Vercel).
+export let db: Client;
 
 export async function initDb() {
+  if (!db) {
+    const { createClient } = await import("@libsql/client");
+    const url = process.env.TURSO_DATABASE_URL || "file:local.db";
+    const authToken = process.env.TURSO_AUTH_TOKEN;
+    db = createClient({ url, authToken });
+  }
+
   await db.execute(`
     CREATE TABLE IF NOT EXISTS plans (
       id TEXT PRIMARY KEY,

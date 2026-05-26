@@ -1,4 +1,13 @@
-import xlsx from "xlsx";
+// xlsx loaded lazily — avoids esbuild bundling native addon at module init (Vercel ERR_MODULE_NOT_FOUND)
+import type * as XlsxType from "xlsx";
+let _xlsx: typeof XlsxType;
+async function getXlsx(): Promise<typeof XlsxType> {
+  if (!_xlsx) {
+    const mod = await import("xlsx");
+    _xlsx = (mod.default ?? mod) as typeof XlsxType;
+  }
+  return _xlsx;
+}
 
 function parseMonthToPeriod(monthName: string, year: string = "2026"): string {
   const months: Record<string, string> = {
@@ -84,10 +93,10 @@ export function extractFinanceDreValidation(buffer: Buffer): void {
 /**
  * Dedicated Extractor: Indicadores RH
  */
-export function extractRhIndicators(workbook: xlsx.WorkBook, sheetNames: string[]): any[] {
+export function extractRhIndicators(workbook: XlsxType.WorkBook, sheetNames: string[]): any[] {
   const extractedRows: any[] = [];
-  const consolidadoName = sheetNames.find(s => s.toLowerCase().includes("consolidado")) || sheetNames[0];
-  const grid = xlsx.utils.sheet_to_json(workbook.Sheets[consolidadoName], { header: 1 }) as any[][];
+  const consolidadoName = sheetNames.find((s: string) => s.toLowerCase().includes("consolidado")) || sheetNames[0];
+  const grid = _xlsx.utils.sheet_to_json(workbook.Sheets[consolidadoName], { header: 1 }) as any[][];
   
   // Find header row
   let headerRowIdx = -1;
@@ -153,10 +162,10 @@ export function extractRhIndicators(workbook: xlsx.WorkBook, sheetNames: string[
 /**
  * Dedicated Extractor: CONTROLE DE ATESTADOS
  */
-export function extractAbsenceCertificates(workbook: xlsx.WorkBook, sheetNames: string[]): any[] {
+export function extractAbsenceCertificates(workbook: XlsxType.WorkBook, sheetNames: string[]): any[] {
   const extractedRows: any[] = [];
   for (const sheetName of sheetNames) {
-    const grid = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 }) as any[][];
+    const grid = _xlsx.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 }) as any[][];
     
     let headerRowIdx = -1;
     for (let r = 0; r < grid.length; r++) {
@@ -202,11 +211,11 @@ export function extractAbsenceCertificates(workbook: xlsx.WorkBook, sheetNames: 
 /**
  * Dedicated Extractor: TURNOVER
  */
-export function extractTurnover(workbook: xlsx.WorkBook, sheetNames: string[]): any[] {
+export function extractTurnover(workbook: XlsxType.WorkBook, sheetNames: string[]): any[] {
   const extractedRows: any[] = [];
   for (const sheetName of sheetNames) {
     const period = parseMonthToPeriod(sheetName);
-    const grid = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 }) as any[][];
+    const grid = _xlsx.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 }) as any[][];
     
     let currentBlock: "admission" | "dismissal" | null = null;
     let headers: string[] = [];
@@ -274,9 +283,12 @@ export async function parseExcel(buffer: Buffer): Promise<any[]> {
   // Validate standard ZIP/PK signature
   extractFinanceDreValidation(buffer);
 
-  let workbook: xlsx.WorkBook;
+  // Ensure xlsx is loaded before helper functions use _xlsx
+  await getXlsx();
+
+  let workbook: XlsxType.WorkBook;
   try {
-    workbook = xlsx.read(buffer, { type: "buffer", cellDates: true });
+    workbook = _xlsx.read(buffer, { type: "buffer", cellDates: true });
   } catch (err: any) {
     const error = new Error("This file is not a standard XLSX workbook. Open it in Excel and save again as Excel Workbook (*.xlsx).") as any;
     error.status = 400;
@@ -294,13 +306,13 @@ export async function parseExcel(buffer: Buffer): Promise<any[]> {
   let detectedDomain: "finance" | "rh" | "operations" | "unknown" = "unknown";
 
   // Check sheet names first
-  const hasConsolidado = sheetNames.some(s => s.toLowerCase().includes("consolidado"));
-  const hasAbsences = sheetNames.some(s => ["planilha1", "planilha2", "planilha3", "atestados", "ausencias"].includes(s.toLowerCase().trim()));
-  const hasMonthlySheets = sheetNames.some(s => ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"].some(m => s.toLowerCase().includes(m)));
+  const hasConsolidado = sheetNames.some((s: string) => s.toLowerCase().includes("consolidado"));
+  const hasAbsences = sheetNames.some((s: string) => ["planilha1", "planilha2", "planilha3", "atestados", "ausencias"].includes(s.toLowerCase().trim()));
+  const hasMonthlySheets = sheetNames.some((s: string) => ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"].some((m: string) => s.toLowerCase().includes(m)));
 
   // Inspect sheets and their headers
-  let consolidadoSheetName = sheetNames.find(s => s.toLowerCase().includes("consolidado")) || sheetNames[0];
-  let mainSheetGrid = xlsx.utils.sheet_to_json(workbook.Sheets[consolidadoSheetName], { header: 1 }) as any[][];
+  let consolidadoSheetName = sheetNames.find((s: string) => s.toLowerCase().includes("consolidado")) || sheetNames[0];
+  let mainSheetGrid = _xlsx.utils.sheet_to_json(workbook.Sheets[consolidadoSheetName], { header: 1 }) as any[][];
 
   // Flat scan for search keywords
   let hasCid = false;
@@ -349,7 +361,7 @@ export async function parseExcel(buffer: Buffer): Promise<any[]> {
     // STANDARD / DRE EXTRACTION
     const sheetName = sheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const data = xlsx.utils.sheet_to_json(worksheet);
+    const data = _xlsx.utils.sheet_to_json(worksheet);
     data.forEach((row: any) => {
       extractedRows.push({
         ...row,
