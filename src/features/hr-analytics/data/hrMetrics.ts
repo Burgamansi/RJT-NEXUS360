@@ -1,4 +1,4 @@
-import { hrAbsenceRecords, hrMonthlyConsolidated, hrTerminationRecords } from "./hrSampleData";
+﻿import { hrAbsenceRecords, hrMonthlyConsolidated, hrTerminationRecords } from "./hrSampleData";
 import type { HrAnalyticsView, HrMonthlyConsolidated } from "./hrTypes";
 
 const currentMonth = hrMonthlyConsolidated[hrMonthlyConsolidated.length - 1];
@@ -24,7 +24,7 @@ const scaleSeries = (values: number[], minHeight = 26, maxHeight = 82) => {
 
 const turnoverDelta = percentageDelta(currentMonth.turnoverRate, currentMonth.turnoverTarget);
 const absenteeismDelta = percentageDelta(absenceRate(currentMonth), absenceRate(previousMonth));
-const resignationRiskCount = hrTerminationRecords.filter((record) => record.reason.toLowerCase().includes("salario")).length;
+const resignationRiscoCount = hrTerminationRecords.filter((record) => record.reason.toLowerCase().includes("salario")).length;
 const medicalCategories = new Set(hrAbsenceRecords.map((record) => record.category)).size;
 
 export const hrAnalyticsView: HrAnalyticsView = {
@@ -123,10 +123,10 @@ export const hrAnalyticsView: HrAnalyticsView = {
     },
     {
       icon: "warning",
-      label: "Retention Risk",
-      text: `${resignationRiskCount} desligamento ligado a salario ou beneficios ja aparece na amostra de turnover analisada.`,
+      label: "Retention Risco",
+      text: `${resignationRiscoCount} desligamento ligado a salario ou beneficios ja aparece na amostra de turnover analisada.`,
       tone: "text-status-critical",
-      bg: "bg-error-container/40",
+      bg: "bg-erro-container/40",
     },
     {
       icon: "speed",
@@ -144,10 +144,12 @@ export const hrAnalyticsView: HrAnalyticsView = {
     },
   ],
   tableRows: [
-    ["Consolidado RH", "Employees", formatNumber(currentMonth.headcount), formatPercent(currentMonth.turnoverRate), "Active"],
-    ["Indicadores RH 2026", "Departments", `${currentMonth.hires} adm / ${currentMonth.terminations} dem`, formatPointDelta(turnoverDelta), "Risk"],
+    ["Consolidado RH", "Employees", formatNumber(currentMonth.headcount), formatPercent(currentMonth.turnoverRate), "Ativo"],
+    ["Indicadores RH 2026", "Departments", `${currentMonth.hires} adm / ${currentMonth.terminations} dem`, formatPointDelta(turnoverDelta), "Risco"],
     ["Controle de Atestados", "Attendance", formatPercent(absenceRate(currentMonth)), formatPointDelta(absenteeismDelta), "Monitor"],
-    ["Turnover 2026", "Performance", `${hrTerminationRecords.length} registros`, `${resignationRiskCount} risco`, "Watch"],
-    ["Training Records", "Training Records", "fonte pendente", "A definir", "Pending"],
+    ["Turnover 2026", "Performance", `${hrTerminationRecords.length} registros`, `${resignationRiscoCount} risco`, "Atenção"],
+    ["Training Records", "Training Records", "fonte pendente", "A definir", "Pendente"],
   ],
 };
+
+

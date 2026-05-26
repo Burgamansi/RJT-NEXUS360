@@ -1,36 +1,36 @@
-import { GlassCard } from "../../shared/ui/GlassCard";
+﻿import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
-import { operationsAnalyticsView } from "./data/operationsMetrics";
-
-const {
-  kpis: operationsKpis,
-  productionTrend,
-  efficiencyTrend,
-  downtimeTrend,
-  downtimeAnalysis,
-  linePerformance,
-  productionMonitoring,
-  insights,
-  tableRows: operationsRows,
-} = operationsAnalyticsView;
+import { useOperationsAnalyticsView } from "../../shared/data/liveImport/hooks";
 
 export function OperationsAnalyticsPage() {
+  const {
+    kpis: operationsKpis,
+    productionTrend,
+    efficiencyTrend,
+    downtimeTrend,
+    downtimeAnalysis,
+    linePerformance,
+    productionMonitoring,
+    insights,
+    tableRows: operationsLinhas,
+  } = useOperationsAnalyticsView();
+
   return (
     <>
       <PageHeader
-        eyebrow="OPERATIONS ANALYTICS"
-        title="Executive Operational Intelligence & Production Analytics"
+        eyebrow="An?lise operacional"
+        title="Intelig?ncia operacional e produ??o"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
               <MaterialIcon name="factory" className="text-[18px]" />
-              GLOBAL OPERATIONS
+              Opera??es gerais
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              OPERATIONS REPORT
+              Relat?rio operacional
             </button>
           </>
         }
@@ -54,7 +54,7 @@ export function OperationsAnalyticsPage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Operations Analytics" subtitle="Production trends, efficiency evolution and downtime analysis" icon="analytics" />
+          <SectionTitle title="Análise operacional" subtitle="Production trends, efficiency evolution and downtime analysis" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <ChartHeader title="Production Trends" meta="Local production records by line" />
@@ -79,12 +79,12 @@ export function OperationsAnalyticsPage() {
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
             <OperationsMetric label="Efficiency Evolution" value={operationsKpis[1].value} note="Weighted local records" positive={operationsKpis[1].tone.includes("success")} />
             <OperationsMetric label="Productivity Heatmap" value={operationsKpis[5].value} note="Indexed output" bordered />
-            <OperationsMetric label="Operational Performance" value={operationsKpis[2].value} note="OEE local model" />
+            <OperationsMetric label="Desempenho operacional" value={operationsKpis[2].value} note="OEE local model" />
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Line Performance" subtitle="Efficiency, OEE and bottleneck status" icon="leaderboard" />
+          <SectionTitle title="Desempenho por linha" subtitle="Efici?ncia, OEE e gargalos" icon="leaderboard" />
           <div className="mt-7 space-y-4">
             {linePerformance.map(([name, efficiency, oee, status]) => (
               <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
@@ -94,7 +94,7 @@ export function OperationsAnalyticsPage() {
                 </div>
                 <div className="flex items-center justify-between font-data-mono text-[11px] text-outline">
                   <span>{oee} OEE</span>
-                  <span className={status === "Bottleneck" || status === "Watch" ? "text-status-critical" : "text-status-success"}>{status}</span>
+                  <span className={status === "Bottleneck" || status === "Atenção" ? "text-status-critical" : "text-status-success"}>{status}</span>
                 </div>
               </div>
             ))}
@@ -106,7 +106,7 @@ export function OperationsAnalyticsPage() {
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
               <ChartHeader title="Efficiency vs Downtime" meta="Operational stability by period" />
-              <DualBarChart />
+              <DualBarChart downtimeTrend={downtimeTrend} efficiencyTrend={efficiencyTrend} />
             </div>
             <div className="space-y-4">
               {productionMonitoring.map(([label, value, progress, color]) => (
@@ -123,7 +123,7 @@ export function OperationsAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recommendations, alerts, anomalies and production risks" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomenda??es, alertas, anomalias e riscos de produ??o" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -144,7 +144,7 @@ export function OperationsAnalyticsPage() {
               <HeatmapCell key={index} index={index} />
             ))}
           </div>
-          <div className="mt-6 rounded-lg border border-error/10 bg-error-container/20 p-4">
+          <div className="mt-6 rounded-lg border border-erro/10 bg-erro-container/20 p-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="report_problem" className="text-status-critical" />
               <span className="font-label-caps text-[10px] text-outline">BOTTLENECK RISK</span>
@@ -154,23 +154,23 @@ export function OperationsAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Operations Tables" subtitle="Production orders, machine logs, downtime records, productivity reports and history" icon="table_chart" />
+          <SectionTitle title="Tabelas operacionais" subtitle="Production orders, machine logs, downtime records, productivity reports and history" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["OPERATIONS LINE", "SECTION", "VALUE", "METRIC", "STATUS"].map((heading) => (
+                  {["LINHA OPERACIONAL", "SEÇÃO", "VALOR", "MÉTRICA", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {operationsRows.map(([line, section, value, metric, status]) => (
+                {operationsLinhas.map(([line, section, value, metric, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
                     <td className="py-4 text-on-surface-variant">{section}</td>
                     <td className="py-4 font-data-mono text-primary">{value}</td>
-                    <td className={`py-4 font-data-mono ${metric.startsWith("+") || metric === "Healthy" || metric === "On schedule" ? "text-status-success" : "text-status-critical"}`}>{metric}</td>
+                    <td className={`py-4 font-data-mono ${metric.startsWith("+") || metric === "Saudável" || metric === "On schedule" ? "text-status-success" : "text-status-critical"}`}>{metric}</td>
                     <td className="py-4">
                       <span className="rounded bg-surface-container px-2 py-1 font-label-caps text-[9px] text-primary">{status}</span>
                     </td>
@@ -225,7 +225,7 @@ function BarChart({ values, activeIndex }: { values: number[]; activeIndex: numb
   );
 }
 
-function DualBarChart() {
+function DualBarChart({ downtimeTrend, efficiencyTrend }: { downtimeTrend: number[]; efficiencyTrend: number[] }) {
   return (
     <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
       {efficiencyTrend.slice(0, 6).map((value, index) => (
@@ -263,3 +263,5 @@ function HeatmapCell({ index }: { index: number }) {
 
   return <div className={`flex aspect-square items-center justify-center rounded-sm font-data-mono text-[10px] ${color} ${label ? "opacity-40" : ""}`}>{label}</div>;
 }
+
+

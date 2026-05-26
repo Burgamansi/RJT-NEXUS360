@@ -9,26 +9,29 @@ import { HrAnalyticsPage } from "../features/hr-analytics/HrAnalyticsPage";
 import { InventoryIntelligencePage } from "../features/inventory-intelligence/InventoryIntelligencePage";
 import { OperationsAnalyticsPage } from "../features/operations-analytics/OperationsAnalyticsPage";
 import { PurchasingIntelligencePage } from "../features/purchasing-intelligence/PurchasingIntelligencePage";
+import { LiveImportProvider } from "../shared/data/liveImport/LiveImportContext";
 import { AppShell } from "../shared/layout/AppShell";
 
 export function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="/auth" element={<AuthPage />} />
-      <Route element={<AppShell />}>
-        <Route path="/budget" element={<BudgetIntelligencePage />} />
-        <Route path="/dashboard" element={<ExecutiveDashboardPage />} />
-        <Route path="/commercial" element={<CommercialIntelligencePage />} />
-        <Route path="/data-import" element={<DataImportCenterPage />} />
-        <Route path="/executive" element={<ExecutiveDashboardPage />} />
-        <Route path="/financial" element={<FinancialIntelligencePage />} />
-        <Route path="/hr" element={<HrAnalyticsPage />} />
-        <Route path="/inventory" element={<InventoryIntelligencePage />} />
-        <Route path="/operations" element={<OperationsAnalyticsPage />} />
-        <Route path="/purchasing" element={<PurchasingIntelligencePage />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
-    </Routes>
+    <LiveImportProvider>
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route element={<AppShell />}>
+          <Route path="/budget" element={<BudgetIntelligencePage />} />
+          <Route path="/dashboard" element={<ExecutiveDashboardPage />} />
+          <Route path="/commercial" element={<CommercialIntelligencePage />} />
+          <Route path="/data-import" element={<DataImportCenterPage />} />
+          <Route path="/executive" element={<ExecutiveDashboardPage />} />
+          <Route path="/financial" element={<FinancialIntelligencePage />} />
+          <Route path="/hr" element={<HrAnalyticsPage />} />
+          <Route path="/inventory" element={<InventoryIntelligencePage />} />
+          <Route path="/operations" element={<OperationsAnalyticsPage />} />
+          <Route path="/purchasing" element={<PurchasingIntelligencePage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </LiveImportProvider>
   );
 }

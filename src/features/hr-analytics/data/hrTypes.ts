@@ -1,4 +1,4 @@
-export type HrMonthlyConsolidated = {
+﻿export type HrMonthlyConsolidated = {
   month: string;
   headcount: number;
   workedHours: number;
@@ -62,3 +62,5 @@ export type HrAnalyticsView = {
   insights: HrInsight[];
   tableRows: HrTableRow[];
 };
+
+

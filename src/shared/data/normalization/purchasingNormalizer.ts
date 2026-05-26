@@ -1,4 +1,4 @@
-import type { PurchasingRecord } from "../../../features/purchasing-intelligence/data/purchasingTypes";
+﻿import type { PurchasingRecord } from "../../../features/purchasing-intelligence/data/purchasingTypes";
 import { includesNormalized, readDateText, readNullableNumber, readText, validateRequired } from "./parsers";
 import type { FieldAliases, NormalizationResult, SpreadsheetRow } from "./types";
 
@@ -8,7 +8,7 @@ const requiredAliases: FieldAliases = {
   category: ["Categoria"],
 };
 
-export function normalizePurchasingRows(rows: SpreadsheetRow[]): NormalizationResult<PurchasingRecord> {
+export function normalizePurchasingLinhas(rows: SpreadsheetRow[]): NormalizationResult<PurchasingRecord> {
   const issues = rows.flatMap((row, index) => validateRequired(row, index, requiredAliases));
   const records = rows.map((row): PurchasingRecord => {
     const contractStatus = readText(row, ["Status Contrato", "Contrato"], "pending");
@@ -29,3 +29,4 @@ export function normalizePurchasingRows(rows: SpreadsheetRow[]): NormalizationRe
 
   return { records, issues };
 }
+

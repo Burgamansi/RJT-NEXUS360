@@ -1,4 +1,4 @@
-export type InventoryItem = {
+﻿export type InventoryItem = {
   sku: string;
   category: "Materia-prima" | "Produto em Processo" | "Material Acabado";
   abcClass: "A" | "B" | "C" | "Sem Movimento" | "Estrategico";
@@ -43,3 +43,5 @@ export type InventoryAnalyticsView = {
   insights: InventoryInsight[];
   tableRows: InventoryTableRow[];
 };
+
+

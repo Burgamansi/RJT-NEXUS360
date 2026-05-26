@@ -2,34 +2,34 @@ import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
-import { financialAnalyticsView } from "./data/financialMetrics";
-
-const {
-  kpis: financialKpis,
-  revenueEvolution,
-  profitTrend,
-  expenseDistribution,
-  costCenters,
-  cashFlow,
-  insights,
-  tableRows,
-} = financialAnalyticsView;
+import { useFinancialAnalyticsView } from "../../shared/data/liveImport/hooks";
 
 export function FinancialIntelligencePage() {
+  const {
+    kpis: financialKpis,
+    revenueEvolution,
+    profitTrend,
+    expenseDistribution,
+    costCenters,
+    cashFlow,
+    insights,
+    tableRows,
+  } = useFinancialAnalyticsView();
+
   return (
     <>
       <PageHeader
-        eyebrow="FINANCIAL INTELLIGENCE"
-        title="Executive DRE Analytics & Cash Performance"
+        eyebrow="Inteligência financeira"
+        title="DRE executiva e desempenho de caixa"
         actions={
           <>
-            <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
+            <button className="flex items-center gap-2 rounded-md border border-glass-stroke px-4 py-2 text-sm font-semibold transition-colors hover:bg-surface-container-low">
               <MaterialIcon name="calendar_month" className="text-[18px]" />
-              FY 2026 · Q2
+              2026 · 2? tri
             </button>
-            <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
+            <button className="flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90">
               <MaterialIcon name="download" className="text-[18px]" />
-              BOARD REPORT
+              Relatório diretivo
             </button>
           </>
         }
@@ -53,14 +53,14 @@ export function FinancialIntelligencePage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="xl:col-span-8 p-8">
-          <SectionTitle title="DRE Analytics" subtitle="Revenue, profit, margins and cost behavior" icon="analytics" />
+          <SectionTitle title="Análise da DRE" subtitle="Receita, lucro, margens e comportamento de custos" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Revenue Evolution" meta="Local DRE sample from 2026 workbook" />
+              <ChartHeader title="Evolução da receita" meta="DRE local do arquivo de 2026" />
               <BarChart values={revenueEvolution} activeIndex={revenueEvolution.length - 1} />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Expense Distribution" meta="Operating cost mapped from DRE sample" />
+              <ChartHeader title="Distribuição de despesas" meta="Custos operacionais mapeados da DRE" />
               <div className="mt-6 space-y-4">
                 {expenseDistribution.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
@@ -76,14 +76,14 @@ export function FinancialIntelligencePage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
-            <FinanceMetric label="Profit Trend" value="+7.4%" note="YoY normalized" />
-            <FinanceMetric label="Margin Analysis" value="68.1%" note="Gross margin" bordered />
-            <FinanceMetric label="Cost Discipline" value="-3.2%" note="Operational cost variance" positive />
+            <FinanceMetric label="Tendência de lucro" value="+7,4%" note="Normalizado anual" />
+            <FinanceMetric label="Análise de margem" value="68,1%" note="Margem bruta" bordered />
+            <FinanceMetric label="Disciplina de custos" value="-3,2%" note="Variação operacional" positive />
           </div>
         </GlassCard>
 
         <GlassCard className="xl:col-span-4 p-8">
-          <SectionTitle title="Cost Center Breakdown" subtitle="Monthly allocation and variance" icon="account_tree" />
+          <SectionTitle title="Centros de custo" subtitle="Alocação mensal e variação" icon="account_tree" />
           <div className="mt-7 space-y-4">
             {costCenters.map(([name, amount, share, variance]) => (
               <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
@@ -92,7 +92,7 @@ export function FinancialIntelligencePage() {
                   <span className="font-data-mono text-sm text-primary">{amount}</span>
                 </div>
                 <div className="flex items-center justify-between font-data-mono text-[11px] text-outline">
-                  <span>{share} of OPEX</span>
+                  <span>{share} do OPEX</span>
                   <span className={variance.startsWith("-") ? "text-status-success" : "text-status-critical"}>{variance}</span>
                 </div>
               </div>
@@ -101,11 +101,11 @@ export function FinancialIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="xl:col-span-7 p-8">
-          <SectionTitle title="Cash Flow Center" subtitle="Inflow, outflow, liquidity and forecast" icon="account_balance" />
+          <SectionTitle title="Fluxo de caixa" subtitle="Entradas, saídas, liquidez e previsão" icon="account_balance" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
-              <ChartHeader title="Inflow vs Outflow" meta="Operating cash movement" />
-              <DualBarChart />
+              <ChartHeader title="Entradas x saídas" meta="Movimento de caixa operacional" />
+              <DualBarChart profitTrend={profitTrend} />
             </div>
             <div className="space-y-4">
               {cashFlow.map(([label, value, progress, color]) => (
@@ -122,7 +122,7 @@ export function FinancialIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="xl:col-span-5 p-8">
-          <SectionTitle title="Executive Insights" subtitle="Recommendations, anomalies and strategic highlights" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomendações, anomalias e destaques estratégicos" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -137,12 +137,12 @@ export function FinancialIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="xl:col-span-12 p-8">
-          <SectionTitle title="Financial Tables" subtitle="Accounts, transactions, expenses, cost centers and monthly comparisons" icon="table_chart" />
+          <SectionTitle title="Tabelas financeiras" subtitle="Contas, transações, despesas, centros de custo e comparações mensais" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["FINANCIAL LINE", "SECTION", "VALUE", "VARIANCE", "STATUS"].map((heading) => (
+                  {["LINHA FINANCEIRA", "SEÇÃƒO", "VALOR", "VARIAÇÃƒO", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
@@ -189,7 +189,7 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">LIVE MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">MODELO ATIVO</span>
     </div>
   );
 }
@@ -208,7 +208,7 @@ function BarChart({ values, activeIndex }: { values: number[]; activeIndex: numb
   );
 }
 
-function DualBarChart() {
+function DualBarChart({ profitTrend }: { profitTrend: number[] }) {
   return (
     <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
       {profitTrend.slice(0, 6).map((value, index) => (
@@ -230,3 +230,5 @@ function FinanceMetric({ label, value, note, bordered = false, positive = false 
     </div>
   );
 }
+
+

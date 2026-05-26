@@ -4,49 +4,49 @@ import { MaterialIcon } from "../ui/MaterialIcon";
 
 export function Sidebar() {
   return (
-    <aside className="sticky top-28 hidden h-[calc(100vh-160px)] w-72 shrink-0 flex-col gap-gutter rounded-xl border border-white/10 bg-primary-container px-6 py-8 shadow-[34px_0_90px_rgba(6,20,45,0.22)] backdrop-blur-2xl lg:flex">
-      <div className="mb-6">
-        <div className="mb-5 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg bg-secondary shadow-lg shadow-secondary/30">
-            <img alt="RJT logo" className="h-full w-full object-cover" src="/brand/logo_blue_single.png" />
-          </div>
-          <div>
-            <h2 className="font-headline-lg text-[22px] font-black text-white">Nexus HQ</h2>
-            <p className="font-body-sm text-white/55">Global Workspace</p>
+    <aside className="sticky top-24 hidden h-[calc(100vh-128px)] w-64 shrink-0 flex-col rounded-lg border border-outline-variant bg-white px-4 py-5 shadow-sm lg:flex">
+      <div className="mb-6 border-b border-outline-variant pb-5">
+        <div className="flex items-center gap-3">
+          <div aria-label="Logotipo RJT" className="brand-mark h-11 w-11 shrink-0 rounded-md border border-outline-variant bg-white" role="img" />
+          <div className="min-w-0">
+            <h2 className="truncate text-sm font-bold text-primary">RJT Nexus360</h2>
+            <p className="text-xs text-on-surface-variant">Gestão industrial</p>
           </div>
         </div>
       </div>
 
-      <nav className="flex flex-col gap-2">
+      <nav className="flex flex-col gap-1">
         {primaryNavigation.map((item) => (
           <NavLink
             key={`${item.label}-${item.path}`}
             to={item.path}
             className={({ isActive }) =>
-              `flex items-center gap-4 rounded-lg p-3 transition-all duration-200 hover:translate-x-1 hover:bg-white/10 hover:text-white ${
+              `flex min-h-10 items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
                 isActive
-                  ? "border border-secondary/60 bg-secondary/20 font-bold text-white shadow-lg shadow-secondary/10"
-                  : "text-white/68"
+                  ? "bg-primary text-white"
+                  : "text-on-surface-variant hover:bg-surface-container-low hover:text-primary"
               }`
             }
           >
-            <MaterialIcon name={item.icon} />
-            <span className="font-label-caps">{item.label}</span>
+            <MaterialIcon name={item.icon} className="text-[20px]" />
+            <span className="truncate font-medium">{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      <div className="mt-auto border-t border-white/10 pt-8">
+      <div className="mt-auto border-t border-outline-variant pt-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary">
-            <MaterialIcon name="cloud_sync" className="text-sm text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-status-success/10">
+            <MaterialIcon name="cloud_sync" className="text-sm text-status-success" />
           </div>
           <div>
-            <p className="font-label-caps text-[10px] leading-tight text-white/60">VERSION</p>
-            <p className="font-data-mono text-[12px] text-white/80">v3.2.0-Alpha</p>
+            <p className="text-[10px] font-bold leading-tight text-outline">VERSÃO</p>
+            <p className="font-data-mono text-[12px] text-on-surface-variant">3.2.0</p>
           </div>
         </div>
       </div>
     </aside>
   );
 }
+
+

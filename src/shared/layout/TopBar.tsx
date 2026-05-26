@@ -1,37 +1,35 @@
 import { NavLink } from "react-router-dom";
 
 const topLinks = [
-  { label: "DASHBOARD", to: "/dashboard" },
-  { label: "BUDGET", to: "/budget" },
-  { label: "FINANCIAL", to: "/financial" },
-  { label: "COMMERCIAL", to: "/commercial" },
-  { label: "IMPORT", to: "/data-import" },
-  { label: "HR", to: "/hr" },
-  { label: "INVENTORY", to: "/inventory" },
-  { label: "OPERATIONS", to: "/operations" },
-  { label: "PURCHASING", to: "/purchasing" },
+  { label: "Painel", to: "/dashboard" },
+  { label: "Orçamento", to: "/budget" },
+  { label: "Financeiro", to: "/financial" },
+  { label: "Comercial", to: "/commercial" },
+  { label: "Importação", to: "/data-import" },
+  { label: "Pessoas", to: "/hr" },
+  { label: "Estoque", to: "/inventory" },
+  { label: "Operações", to: "/operations" },
+  { label: "Compras", to: "/purchasing" },
 ];
 
 export function TopBar() {
   return (
-    <header className="sticky top-0 z-50 mx-auto flex h-20 w-full max-w-container-max items-center justify-between border-b border-white/10 bg-primary-container px-margin-mobile shadow-2xl shadow-primary-container/25 backdrop-blur-xl md:px-margin-desktop">
-      <div className="flex items-center gap-6">
-        <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-lg bg-secondary shadow-lg shadow-secondary/30">
-          <img alt="RJT logo" className="h-full w-full object-cover" src="/brand/logo_blue_single.png" />
-        </div>
-        <h1 className="font-display-xl text-[24px] font-bold text-white md:text-[28px]">
-          RJT <span className="text-electric-blue">NEXUS360</span>
+    <header className="sticky top-0 z-50 flex h-[72px] w-full items-center justify-between border-b border-outline-variant bg-white px-margin-mobile shadow-sm md:px-margin-desktop">
+      <div className="flex min-w-0 items-center gap-4">
+        <div aria-label="Logotipo RJT" className="brand-mark h-10 w-10 shrink-0 rounded-md border border-outline-variant bg-white" role="img" />
+        <h1 className="truncate text-lg font-bold text-primary md:text-xl">
+          RJT <span className="text-secondary">Nexus360</span>
         </h1>
       </div>
 
-      <nav className="hidden items-center gap-6 md:flex">
+      <nav className="hidden items-center gap-1 xl:flex">
         {topLinks.map((item) => (
           <NavLink
             key={item.label}
             to={item.to}
             className={({ isActive }) =>
-              `font-label-caps text-label-caps transition-colors ${
-                isActive ? "border-b-2 border-electric-blue pb-1 text-electric-blue" : "text-white/70 hover:text-white"
+              `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                isActive ? "bg-surface-container text-primary" : "text-on-surface-variant hover:bg-surface-container-low hover:text-primary"
               }`
             }
           >
@@ -42,20 +40,18 @@ export function TopBar() {
 
       <div className="flex items-center gap-4">
         <div className="hidden flex-col items-end sm:flex">
-          <span className="font-label-caps text-[10px] text-white/55">SYSTEM STATUS</span>
+          <span className="text-[10px] font-bold text-outline">STATUS DO SISTEMA</span>
           <div className="flex items-center gap-2">
             <span className="pulse-ring h-2 w-2 rounded-full bg-status-success" />
-            <span className="font-data-mono text-[12px] text-white">SYNCHRONIZED</span>
+            <span className="font-data-mono text-[12px] text-primary">SINCRONIZADO</span>
           </div>
         </div>
-        <div className="h-10 w-10 cursor-pointer overflow-hidden rounded-full border border-primary/10 bg-primary-fixed transition-transform active:scale-95">
-          <img
-            alt="Director User"
-            className="h-full w-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIVCXYD3pfT2wdEBlXyrqdmLMnyk6hBUGOJaFHt9z1RdjvAy_mj--k1JlWzfwZpOyiKj22IRT86JVJ7QAKwiWjXqGt-F3Po-9KRBECa9r0DOCpG-IfaeSCQXsIb4eEANiXnWqB74WCXiENDH0-iF28nvkKRY9YsiJO-5iCAkAJXsC8dyciLhXYoDte5-FFy7j-wfKqsBP5vPVRaeMaxrVVzVxIZG2pXoUVkZeY08RHXpwTQY-y3t0RFLECBI0ArixhYf7Zp4R8m9rY"
-          />
+        <div className="flex h-9 w-9 items-center justify-center rounded-full border border-outline-variant bg-surface-container text-sm font-bold text-primary">
+          RJ
         </div>
       </div>
     </header>
   );
 }
+
+

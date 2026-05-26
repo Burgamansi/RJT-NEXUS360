@@ -1,4 +1,4 @@
-import type { CommercialRecord } from "../../../features/commercial-intelligence/data/commercialTypes";
+﻿import type { CommercialRecord } from "../../../features/commercial-intelligence/data/commercialTypes";
 import { includesNormalized, readNumber, readText, validateRequired } from "./parsers";
 import type { FieldAliases, NormalizationResult, SpreadsheetRow } from "./types";
 
@@ -10,7 +10,7 @@ const requiredAliases: FieldAliases = {
   marginRate: ["Margem"],
 };
 
-export function normalizeCommercialRows(rows: SpreadsheetRow[]): NormalizationResult<CommercialRecord> {
+export function normalizeCommercialLinhas(rows: SpreadsheetRow[]): NormalizationResult<CommercialRecord> {
   const issues = rows.flatMap((row, index) => validateRequired(row, index, requiredAliases));
   const records = rows.map((row): CommercialRecord => {
     const recurrence = readText(row, ["Periodicidade"], "Projeto");
@@ -30,3 +30,4 @@ export function normalizeCommercialRows(rows: SpreadsheetRow[]): NormalizationRe
 
   return { records, issues };
 }
+

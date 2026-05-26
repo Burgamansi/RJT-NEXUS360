@@ -1,4 +1,4 @@
-export type PurchasingRecord = {
+﻿export type PurchasingRecord = {
   supplier: string;
   purchaseOrder: string;
   category: string;
@@ -23,7 +23,7 @@ export type PurchasingKpi = {
 
 export type PurchasingDistributionItem = readonly [label: string, value: string, percentage: number, color: string];
 export type SupplierRankingItem = readonly [name: string, score: string, delivery: string, status: string];
-export type SupplierRiskItem = readonly [label: string, value: string, progress: number, color: string];
+export type SupplierRiscoItem = readonly [label: string, value: string, progress: number, color: string];
 export type PurchasingTableRow = readonly [line: string, section: string, value: string, metric: string, status: string];
 
 export type PurchasingInsight = {
@@ -41,7 +41,9 @@ export type PurchasingAnalyticsView = {
   deliveryTrend: number[];
   categorySpend: PurchasingDistributionItem[];
   supplierRanking: SupplierRankingItem[];
-  supplierRisk: SupplierRiskItem[];
+  supplierRisco: SupplierRiscoItem[];
   insights: PurchasingInsight[];
   tableRows: PurchasingTableRow[];
 };
+
+

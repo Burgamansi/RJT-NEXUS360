@@ -11,7 +11,7 @@ const consolidatedAliases: FieldAliases = {
   turnoverRate: ["Turnover"],
 };
 
-export function normalizeHrConsolidatedRows(rows: SpreadsheetRow[]): NormalizationResult<HrMonthlyConsolidated> {
+export function normalizeHrConsolidatedLinhas(rows: SpreadsheetRow[]): NormalizationResult<HrMonthlyConsolidated> {
   const issues = rows.flatMap((row, index) => validateRequired(row, index, consolidatedAliases));
   const records = rows.map((row): HrMonthlyConsolidated => ({
     month: readText(row, consolidatedAliases.month),
@@ -29,7 +29,7 @@ export function normalizeHrConsolidatedRows(rows: SpreadsheetRow[]): Normalizati
   return { records, issues };
 }
 
-export function normalizeHrAbsenceRows(rows: SpreadsheetRow[]): NormalizationResult<HrAbsenceRecord> {
+export function normalizeHrAbsenceLinhas(rows: SpreadsheetRow[]): NormalizationResult<HrAbsenceRecord> {
   const required: FieldAliases = { category: ["CID"], month: ["Mes", "Mês"], days: ["QUANTOS DIAS", "Dias"], employee: ["NOME", "Nome"] };
   const issues = rows.flatMap((row, index) => validateRequired(row, index, required));
   const records = rows.map((row): HrAbsenceRecord => ({
@@ -42,8 +42,8 @@ export function normalizeHrAbsenceRows(rows: SpreadsheetRow[]): NormalizationRes
   return { records, issues };
 }
 
-export function normalizeHrTerminationRows(rows: SpreadsheetRow[]): NormalizationResult<HrTerminationRecord> {
-  const required: FieldAliases = { employee: ["NOME", "Nome"], role: ["CARGO", "Cargo"], date: ["DATA DE DEMISSAO", "DATA DE DEMISSÃO"], company: ["EMPRESA"], reason: ["MOTIVO DESLIGAMENTO"] };
+export function normalizeHrTerminationLinhas(rows: SpreadsheetRow[]): NormalizationResult<HrTerminationRecord> {
+  const required: FieldAliases = { employee: ["NOME", "Nome"], role: ["CARGO", "Cargo"], date: ["DATA DE DEMISSAO", "DATA DE DEMISSÃƒO"], company: ["EMPRESA"], reason: ["MOTIVO DESLIGAMENTO"] };
   const issues = rows.flatMap((row, index) => validateRequired(row, index, required));
   const records = rows.map((row): HrTerminationRecord => ({
     employee: readText(row, required.employee),
@@ -55,3 +55,4 @@ export function normalizeHrTerminationRows(rows: SpreadsheetRow[]): Normalizatio
 
   return { records, issues };
 }
+

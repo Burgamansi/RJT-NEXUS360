@@ -1,4 +1,4 @@
-export const commercialImportSchemas = {
+﻿export const commercialImportSchemas = {
   commercialWorkbook: {
     source: "Indicadores Comerciais 2026.xlsx",
     requiredColumns: [
@@ -13,6 +13,7 @@ export const commercialImportSchemas = {
       "Status Pedido",
     ],
     optionalColumns: ["Orcamento", "Pedido", "Terceiros", "Data Pedido", "Data Entrega", "Representante", "Regiao"],
-    moduleUse: "Revenue analytics, customer ranking, sales pipeline, recurrence and commercial tables",
+    moduleUse: "Receita analytics, customer ranking, sales pipeline, recurrence and commercial tables",
   },
 } as const;
+

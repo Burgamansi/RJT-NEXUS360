@@ -1,4 +1,4 @@
-import { GlassCard } from "../../shared/ui/GlassCard";
+﻿import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
@@ -9,20 +9,20 @@ const {
   revenueTrend,
   volumeTrend,
   marginTrend,
-  productRevenue: bagTypeRevenue,
+  productReceita: bagTypeReceita,
   customerRanking,
   openOrders,
-  recurrenceRows,
+  recurrenceLinhas,
   insights,
-  tableRows: commercialRows,
+  tableRows: commercialLinhas,
 } = commercialAnalyticsView;
 
 export function CommercialIntelligencePage() {
   return (
     <>
       <PageHeader
-        eyebrow="COMMERCIAL INTELLIGENCE"
-        title="Executive Sales Analytics & Revenue Intelligence"
+        eyebrow="Intelig?ncia comercial"
+        title="An?lise comercial executiva e receita"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
@@ -31,7 +31,7 @@ export function CommercialIntelligencePage() {
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              COMMERCIAL REPORT
+              Relat?rio comercial
             </button>
           </>
         }
@@ -55,7 +55,7 @@ export function CommercialIntelligencePage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Commercial Analytics" subtitle="Faturamento, volume, ticket medio e mix comercial" icon="analytics" />
+          <SectionTitle title="Análise comercial" subtitle="Faturamento, volume, ticket medio e mix comercial" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <ChartHeader title="Faturamento R$ - UB x Terceiros" meta="Evolucao mensal e comparativo comercial" />
@@ -64,7 +64,7 @@ export function CommercialIntelligencePage() {
             <div className="lg:col-span-5">
               <ChartHeader title="Faturamento por Tipo de Big Bag" meta="Distribuicao de receita por linha" />
               <div className="mt-6 space-y-4">
-                {bagTypeRevenue.map(([label, value, percentage, color]) => (
+                {bagTypeReceita.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
                     <div className="flex justify-between gap-4 text-sm">
                       <span className="font-medium text-on-surface">{label}</span>
@@ -103,10 +103,10 @@ export function CommercialIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-7">
-          <SectionTitle title="Sales Pipeline Center" subtitle="Pedidos em aberto, provisao, periodicidade e orcamento comercial" icon="pending_actions" />
+          <SectionTitle title="Pipeline comercial" subtitle="Pedidos em aberto, provisao, periodicidade e orcamento comercial" icon="pending_actions" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
-              <ChartHeader title="Volume de Venda vs Margem" meta="Performance comercial por periodo" />
+              <ChartHeader title="Volume de Venda vs Margem" meta="Desempenho comercial por per?odo" />
               <DualBarChart />
             </div>
             <div className="space-y-4">
@@ -124,7 +124,7 @@ export function CommercialIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recomendacoes, riscos de pipeline e anomalias comerciais" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomenda??es, riscos de pipeline e anomalias comerciais" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -141,7 +141,7 @@ export function CommercialIntelligencePage() {
         <GlassCard className="p-8 xl:col-span-4">
           <SectionTitle title="Periodicidade" subtitle="Faturamento recorrente por frequencia" icon="donut_large" />
           <div className="mt-7 space-y-4">
-            {recurrenceRows.map(([label, value, progress]) => (
+            {recurrenceLinhas.map(([label, value, progress]) => (
               <DistributionRow key={label} label={label} value={value} progress={progress} />
             ))}
           </div>
@@ -149,24 +149,24 @@ export function CommercialIntelligencePage() {
             <div className="flex items-center gap-3">
               <MaterialIcon name="repeat" className="text-secondary" />
               <span className="font-label-caps text-[10px] text-outline">RECURRENCE BASE</span>
-              <span className="ml-auto font-data-mono text-sm text-primary">{recurrenceRows[0][1]}</span>
+              <span className="ml-auto font-data-mono text-sm text-primary">{recurrenceLinhas[0][1]}</span>
             </div>
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Commercial Tables" subtitle="Clientes, orcamentos, pedidos, Big Bag, periodicidade, terceiros e margem" icon="table_chart" />
+          <SectionTitle title="Tabelas comerciais" subtitle="Clientes, or?amentos, pedidos, Big Bag, periodicidade, terceiros e margem" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["COMMERCIAL LINE", "SECTION", "VALUE", "METRIC", "STATUS"].map((heading) => (
+                  {["LINHA COMERCIAL", "SEÇÃO", "VALOR", "MÉTRICA", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {commercialRows.map(([line, section, value, metric, status]) => (
+                {commercialLinhas.map(([line, section, value, metric, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
                     <td className="py-4 text-on-surface-variant">{section}</td>
@@ -207,7 +207,7 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">SALES MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">MODELO COMERCIAL</span>
     </div>
   );
 }
@@ -260,3 +260,5 @@ function DistributionRow({ label, value, progress }: { label: string; value: str
     </div>
   );
 }
+
+

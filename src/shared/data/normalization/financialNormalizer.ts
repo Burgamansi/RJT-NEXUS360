@@ -10,7 +10,7 @@ const requiredAliases: FieldAliases = {
   realizedAmount: ["Valor Real"],
 };
 
-export function normalizeFinancialRows(rows: SpreadsheetRow[]): NormalizationResult<FinancialEntry> {
+export function normalizeFinancialLinhas(rows: SpreadsheetRow[]): NormalizationResult<FinancialEntry> {
   const issues = rows.flatMap((row, index) => validateRequired(row, index, requiredAliases));
   const records = rows.map((row): FinancialEntry => {
     const launchTypeText = readText(row, requiredAliases.launchType);
@@ -39,3 +39,4 @@ export function normalizeFinancialRows(rows: SpreadsheetRow[]): NormalizationRes
 
   return { records, issues };
 }
+

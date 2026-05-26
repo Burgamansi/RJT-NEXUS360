@@ -1,4 +1,4 @@
-export type ProductionRecord = {
+﻿export type ProductionRecord = {
   productionOrder: string;
   line: string;
   machine: string;
@@ -51,3 +51,5 @@ export type OperationsAnalyticsView = {
   insights: OperationsInsight[];
   tableRows: OperationsTableRow[];
 };
+
+

@@ -38,7 +38,7 @@ export function AuthPage() {
               <div className="flex items-center gap-3">
                 <MaterialIcon name="hub" className="text-electric-blue" />
                 <div>
-                  <p className="text-[12px] font-bold leading-none text-white">Global Nexus Core</p>
+                  <p className="text-[12px] font-bold leading-none text-white">Núcleo RJT Nexus</p>
                   <p className="mt-1 text-[10px] leading-none text-outline-variant">Ambiente Padrao</p>
                 </div>
               </div>
@@ -75,7 +75,7 @@ export function AuthPage() {
               <span className="font-data-mono text-[10px] tracking-widest text-white">ISO 27001 COMPLIANT</span>
             </div>
           </div>
-          <span className="font-label-caps text-[10px] text-outline-variant">© 2024 RJT GLOBAL SYSTEMS</span>
+          <span className="font-label-caps text-[10px] text-outline-variant">© 2024 RJT SISTEMAS INDUSTRIAIS</span>
         </footer>
       </div>
 

@@ -1,27 +1,27 @@
-import { GlassCard } from "../../shared/ui/GlassCard";
+﻿import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
-import { purchasingAnalyticsView } from "./data/purchasingMetrics";
-
-const {
-  kpis: purchasingKpis,
-  purchasingEvolution,
-  leadTimeTrend,
-  deliveryTrend,
-  categorySpend,
-  supplierRanking,
-  supplierRisk,
-  insights,
-  tableRows: purchasingRows,
-} = purchasingAnalyticsView;
+import { usePurchasingAnalyticsView } from "../../shared/data/liveImport/hooks";
 
 export function PurchasingIntelligencePage() {
+  const {
+    kpis: purchasingKpis,
+    purchasingEvolution,
+    leadTimeTrend,
+    deliveryTrend,
+    categorySpend,
+    supplierRanking,
+    supplierRisco,
+    insights,
+    tableRows: purchasingLinhas,
+  } = usePurchasingAnalyticsView();
+
   return (
     <>
       <PageHeader
         eyebrow="PURCHASING INTELLIGENCE"
-        title="Executive Purchasing Analytics & Supplier Intelligence"
+        title="An?lise executiva de compras e fornecedores"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
@@ -30,7 +30,7 @@ export function PurchasingIntelligencePage() {
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              SUPPLIER REPORT
+              Relat?rio de fornecedores
             </button>
           </>
         }
@@ -54,10 +54,10 @@ export function PurchasingIntelligencePage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Procurement Analytics" subtitle="Purchasing evolution, supplier performance and category spend" icon="analytics" />
+          <SectionTitle title="Análise de compras" subtitle="Evolução de compras, fornecedores e gastos por categoria" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Purchasing Evolution" meta="Pending Excel import for 2026 purchasing data" />
+              <ChartHeader title="Evolução de compras" meta="Pendente Excel import for 2026 purchasing data" />
               <BarChart values={purchasingEvolution} activeIndex={purchasingEvolution.length - 1} />
             </div>
             <div className="lg:col-span-5">
@@ -77,14 +77,14 @@ export function PurchasingIntelligencePage() {
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
-            <ProcurementMetric label="Supplier Performance" value="A definir" note="Awaiting supplier score source" />
+            <ProcurementMetric label="Desempenho de fornecedores" value="A definir" note="Aguardando origem da pontuação de fornecedores" />
             <ProcurementMetric label="Lead Time Trends" value="A definir" note="Awaiting delivery dates" bordered />
-            <ProcurementMetric label="Purchasing Distribution" value="A definir" note="Awaiting category spend" />
+            <ProcurementMetric label="Distribuição de compras" value="A definir" note="Aguardando gastos por categoria" />
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Supplier Ranking" subtitle="Performance, delivery and contract status" icon="leaderboard" />
+          <SectionTitle title="Ranking de fornecedores" subtitle="Desempenho, entrega e status contratual" icon="leaderboard" />
           <div className="mt-7 space-y-4">
             {supplierRanking.map(([name, score, delivery, status]) => (
               <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
@@ -94,7 +94,7 @@ export function PurchasingIntelligencePage() {
                 </div>
                 <div className="flex items-center justify-between font-data-mono text-[11px] text-outline">
                   <span>{delivery} delivery performance</span>
-                  <span className={status === "Risk" || status === "Watch" ? "text-status-critical" : "text-status-success"}>{status}</span>
+                  <span className={status === "Risco" || status === "Atenção" ? "text-status-critical" : "text-status-success"}>{status}</span>
                 </div>
               </div>
             ))}
@@ -102,14 +102,14 @@ export function PurchasingIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-7">
-          <SectionTitle title="Supplier Management" subtitle="Risk matrix, delivery reliability, incidents and contracts" icon="hub" />
+          <SectionTitle title="Supplier Management" subtitle="Risco matrix, delivery reliability, incidents and contracts" icon="hub" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
               <ChartHeader title="Lead Time Trends" meta="Lead time reduction vs delivery performance" />
-              <DualBarChart />
+              <DualBarChart deliveryTrend={deliveryTrend} leadTimeTrend={leadTimeTrend} />
             </div>
             <div className="space-y-4">
-              {supplierRisk.map(([label, value, progress, color]) => (
+              {supplierRisco.map(([label, value, progress, color]) => (
                 <div key={label} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="font-label-caps text-[10px] text-outline">{label}</span>
@@ -123,7 +123,7 @@ export function PurchasingIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recommendations, supplier risk alerts and cost anomalies" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomendações, riscos de fornecedores e anomalias de custo" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -138,13 +138,13 @@ export function PurchasingIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Supplier Risk Matrix" subtitle="Quality incidents and dependency exposure" icon="grid_view" />
+          <SectionTitle title="Supplier Risco Matrix" subtitle="Quality incidents and dependency exposure" icon="grid_view" />
           <div className="mt-7 grid grid-cols-5 gap-2">
             {Array.from({ length: 25 }).map((_, index) => (
-              <RiskCell key={index} index={index} />
+              <RiscoCell key={index} index={index} />
             ))}
           </div>
-          <div className="mt-6 rounded-lg border border-error/10 bg-error-container/20 p-4">
+          <div className="mt-6 rounded-lg border border-erro/10 bg-erro-container/20 p-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="report_problem" className="text-status-critical" />
               <span className="font-label-caps text-[10px] text-outline">QUALITY INCIDENTS</span>
@@ -154,18 +154,18 @@ export function PurchasingIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Purchasing Tables" subtitle="Suppliers, purchase orders, contracts, lead times and category analysis" icon="table_chart" />
+          <SectionTitle title="Tabelas de compras" subtitle="Fornecedores, purchase orders, contracts, lead times and category analysis" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["PROCUREMENT LINE", "SECTION", "VALUE", "METRIC", "STATUS"].map((heading) => (
+                  {["LINHA DE COMPRAS", "SEÇÃO", "VALOR", "MÉTRICA", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {purchasingRows.map(([line, section, value, metric, status]) => (
+                {purchasingLinhas.map(([line, section, value, metric, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
                     <td className="py-4 text-on-surface-variant">{section}</td>
@@ -206,7 +206,7 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">ARIBA MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">MODELO DE COMPRAS</span>
     </div>
   );
 }
@@ -225,7 +225,7 @@ function BarChart({ values, activeIndex }: { values: number[]; activeIndex: numb
   );
 }
 
-function DualBarChart() {
+function DualBarChart({ deliveryTrend, leadTimeTrend }: { deliveryTrend: number[]; leadTimeTrend: number[] }) {
   return (
     <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
       {deliveryTrend.map((value, index) => (
@@ -248,7 +248,7 @@ function ProcurementMetric({ label, value, note, bordered = false, positive = fa
   );
 }
 
-function RiskCell({ index }: { index: number }) {
+function RiscoCell({ index }: { index: number }) {
   const critical = [6, 12, 18, 19];
   const watch = [3, 8, 14, 21];
   const stable = [1, 5, 10, 16, 22];
@@ -263,3 +263,5 @@ function RiskCell({ index }: { index: number }) {
 
   return <div className={`flex aspect-square items-center justify-center rounded-sm font-data-mono text-[10px] ${color} ${label ? "opacity-40" : ""}`}>{label}</div>;
 }
+
+

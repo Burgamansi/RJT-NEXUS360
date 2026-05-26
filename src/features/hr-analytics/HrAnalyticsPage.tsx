@@ -1,37 +1,37 @@
-import { GlassCard } from "../../shared/ui/GlassCard";
+﻿import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
-import { hrAnalyticsView } from "./data/hrMetrics";
-
-const {
-  kpis: hrKpis,
-  hiringTrend,
-  turnoverTrend,
-  absenteeismTrend,
-  employeeDistribution,
-  departmentPerformance,
-  trainingMatrix,
-  competencies,
-  insights,
-  tableRows: hrRows,
-} = hrAnalyticsView;
+import { useHrAnalyticsView } from "../../shared/data/liveImport/hooks";
 
 export function HrAnalyticsPage() {
+  const {
+    kpis: hrKpis,
+    hiringTrend,
+    turnoverTrend,
+    absenteeismTrend,
+    employeeDistribution,
+    departmentPerformance,
+    trainingMatrix,
+    competencies,
+    insights,
+    tableRows: hrLinhas,
+  } = useHrAnalyticsView();
+
   return (
     <>
       <PageHeader
         eyebrow="HR ANALYTICS"
-        title="Executive People Analytics & Workforce Intelligence"
+        title="Análise executiva de pessoas e força de trabalho"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
               <MaterialIcon name="business_center" className="text-[18px]" />
-              GLOBAL WORKFORCE
+              Quadro geral
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              PEOPLE REPORT
+              Relat?rio de pessoas
             </button>
           </>
         }
@@ -55,14 +55,14 @@ export function HrAnalyticsPage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Workforce Analytics" subtitle="Distribution, performance, hiring and workforce movement" icon="groups" />
+          <SectionTitle title="Análise de pessoas" subtitle="Distribution, performance, hiring and workforce movement" icon="groups" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <ChartHeader title="Hiring Trends" meta="Admissions from consolidated HR workbook" />
+              <ChartHeader title="Tendência de admissões" meta="Admissions from consolidated HR workbook" />
               <BarChart values={hiringTrend} activeIndex={hiringTrend.length - 1} />
             </div>
             <div className="lg:col-span-5">
-              <ChartHeader title="Employee Distribution" meta="Current local HR data model" />
+              <ChartHeader title="Distribuição de colaboradores" meta="Current local HR data model" />
               <div className="mt-6 space-y-4">
                 {employeeDistribution.map(([label, value, percentage, color]) => (
                   <div key={label} className="space-y-2">
@@ -85,7 +85,7 @@ export function HrAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Department Performance" subtitle="Score, staffing health and variance" icon="leaderboard" />
+          <SectionTitle title="Desempenho por ?rea" subtitle="Pontua??o, quadro e varia??o" icon="leaderboard" />
           <div className="mt-7 space-y-4">
             {departmentPerformance.map(([name, score, staffing, variance]) => (
               <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
@@ -103,11 +103,11 @@ export function HrAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-7">
-          <SectionTitle title="Training & Performance" subtitle="Certifications, matrix coverage and competency tracking" icon="workspace_premium" />
+          <SectionTitle title="Treinamento e desempenho" subtitle="Certifica??es, matriz e compet?ncias" icon="workspace_premium" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
               <ChartHeader title="Evaluation Scores" meta="Training impact vs performance score" />
-              <DualLineBars />
+              <DualLineBars absenteeismTrend={absenteeismTrend} turnoverTrend={turnoverTrend} />
             </div>
             <div className="space-y-4">
               {trainingMatrix.map(([label, value, progress, color]) => (
@@ -124,7 +124,7 @@ export function HrAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recommendations, risks, alerts and anomalies" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomenda??es, riscos, alertas e anomalias" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -157,18 +157,18 @@ export function HrAnalyticsPage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="HR Tables" subtitle="Employees, departments, attendance, performance and training records" icon="table_chart" />
+          <SectionTitle title="Tabelas de pessoas" subtitle="Employees, departments, attendance, performance and training records" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["WORKFORCE LINE", "SECTION", "VALUE", "SCORE / VARIANCE", "STATUS"].map((heading) => (
+                  {["LINHA DE PESSOAS", "SEÇÃO", "VALOR", "PONTUA??O / VARIA??O", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {hrRows.map(([line, section, value, score, status]) => (
+                {hrLinhas.map(([line, section, value, score, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
                     <td className="py-4 text-on-surface-variant">{section}</td>
@@ -228,7 +228,7 @@ function BarChart({ values, activeIndex }: { values: number[]; activeIndex: numb
   );
 }
 
-function DualLineBars() {
+function DualLineBars({ absenteeismTrend, turnoverTrend }: { absenteeismTrend: number[]; turnoverTrend: number[] }) {
   return (
     <div className="mt-6 grid h-64 grid-cols-6 items-end gap-3 border-b border-outline/10 pb-2">
       {turnoverTrend.slice(0, 6).map((value, index) => (
@@ -250,3 +250,5 @@ function PeopleMetric({ label, value, note, bordered = false, positive = false }
     </div>
   );
 }
+
+

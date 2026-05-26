@@ -10,7 +10,7 @@ const requiredAliases: FieldAliases = {
   producedUnits: ["Unidades Produzidas"],
 };
 
-export function normalizeProductionRows(rows: SpreadsheetRow[]): NormalizationResult<ProductionRecord> {
+export function normalizeProductionLinhas(rows: SpreadsheetRow[]): NormalizationResult<ProductionRecord> {
   const issues = rows.flatMap((row, index) => validateRequired(row, index, requiredAliases));
   const records = rows.map((row): ProductionRecord => {
     const status = readText(row, ["Status"], "running");
@@ -31,3 +31,4 @@ export function normalizeProductionRows(rows: SpreadsheetRow[]): NormalizationRe
 
   return { records, issues };
 }
+

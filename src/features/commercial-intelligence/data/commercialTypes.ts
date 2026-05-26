@@ -1,4 +1,4 @@
-export type CommercialRecord = {
+﻿export type CommercialRecord = {
   customer: string;
   productLine: string;
   revenue: number;
@@ -38,10 +38,12 @@ export type CommercialAnalyticsView = {
   revenueTrend: number[];
   volumeTrend: number[];
   marginTrend: number[];
-  productRevenue: CommercialDistributionItem[];
+  productReceita: CommercialDistributionItem[];
   customerRanking: CustomerRankingItem[];
   openOrders: OpenOrderItem[];
-  recurrenceRows: RecurrenceItem[];
+  recurrenceLinhas: RecurrenceItem[];
   insights: CommercialInsight[];
   tableRows: CommercialTableRow[];
 };
+
+

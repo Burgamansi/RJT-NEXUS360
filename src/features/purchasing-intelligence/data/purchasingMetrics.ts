@@ -1,4 +1,4 @@
-import { purchasingRecords } from "./purchasingSampleData";
+﻿import { purchasingRecords } from "./purchasingSampleData";
 import type { PurchasingAnalyticsView } from "./purchasingTypes";
 
 const hasImportedPurchasingData = purchasingRecords.some((record) => record.amount !== null);
@@ -13,10 +13,10 @@ const pendingKpi = {
 export const purchasingAnalyticsView: PurchasingAnalyticsView = {
   kpis: [
     { icon: "shopping_cart", label: "Total Purchasing", border: "border-secondary", ...pendingKpi },
-    { icon: "gpp_maybe", label: "Supplier Risk", border: "border-status-critical", ...pendingKpi },
+    { icon: "gpp_maybe", label: "Supplier Risco", border: "border-status-critical", ...pendingKpi },
     { icon: "schedule", label: "Lead Time", border: "border-status-success", ...pendingKpi },
     { icon: "price_change", label: "Cost Variance", border: "border-outline-variant", ...pendingKpi },
-    { icon: "hub", label: "Critical Suppliers", border: "border-primary", ...pendingKpi },
+    { icon: "hub", label: "Cr?tico Fornecedores", border: "border-primary", ...pendingKpi },
     { icon: "savings", label: "Savings Index", border: "border-secondary-container", ...pendingKpi },
   ],
   purchasingEvolution: [28, 28, 28],
@@ -30,12 +30,12 @@ export const purchasingAnalyticsView: PurchasingAnalyticsView = {
     ["Outros", "A definir", 0, "bg-surface-tint"],
   ],
   supplierRanking: [
-    ["Fornecedores", "A definir", "A definir", "Pending"],
-    ["Pedidos de compra", "A definir", "A definir", "Pending"],
-    ["Contratos", "A definir", "A definir", "Pending"],
-    ["Lead times", "A definir", "A definir", "Pending"],
+    ["Fornecedores", "A definir", "A definir", "Pendente"],
+    ["Pedidos de compra", "A definir", "A definir", "Pendente"],
+    ["Contratos", "A definir", "A definir", "Pendente"],
+    ["Lead times", "A definir", "A definir", "Pendente"],
   ],
-  supplierRisk: [
+  supplierRisco: [
     ["Financial Exposure", "A definir", 0, "bg-status-critical"],
     ["Delivery Reliability", "A definir", 0, "bg-status-success"],
     ["Quality Compliance", "A definir", 0, "bg-secondary"],
@@ -51,10 +51,10 @@ export const purchasingAnalyticsView: PurchasingAnalyticsView = {
     },
     {
       icon: "warning",
-      label: "Supplier Risk Alert",
+      label: "Supplier Risco Alert",
       text: "Risco de fornecedor sera calculado apos cruzar atraso, incidentes de qualidade e dependencia por categoria.",
       tone: "text-status-critical",
-      bg: "bg-error-container/40",
+      bg: "bg-erro-container/40",
     },
     {
       icon: "monitoring",
@@ -65,17 +65,19 @@ export const purchasingAnalyticsView: PurchasingAnalyticsView = {
     },
     {
       icon: "account_tree",
-      label: "Critical Dependency",
+      label: "Cr?tico Dependency",
       text: "Dependencia critica sera marcada por fornecedor unico, categoria essencial e baixa cobertura contratual.",
       tone: "text-status-success",
       bg: "bg-status-success/10",
     },
   ],
   tableRows: [
-    ["Compras 2026.xlsx", "Suppliers", hasImportedPurchasingData ? "Mapeado" : "Aguardando arquivo", "A definir", "Pending"],
-    ["Pedidos de Compra", "Purchase Orders", "A definir", "A definir", "Pending"],
-    ["Contratos", "Contracts", "A definir", "A definir", "Pending"],
-    ["Lead Times", "Lead Times", "A definir", "A definir", "Pending"],
-    ["Categorias", "Category Analysis", "A definir", "A definir", "Pending"],
+    ["Compras 2026.xlsx", "Fornecedores", hasImportedPurchasingData ? "Mapeado" : "Aguardando arquivo", "A definir", "Pendente"],
+    ["Pedidos de Compra", "Purchase Orders", "A definir", "A definir", "Pendente"],
+    ["Contratos", "Contracts", "A definir", "A definir", "Pendente"],
+    ["Lead Times", "Lead Times", "A definir", "A definir", "Pendente"],
+    ["Categorias", "Category Analysis", "A definir", "A definir", "Pendente"],
   ],
 };
+
+

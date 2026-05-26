@@ -5,13 +5,13 @@ export type NavigationItem = {
 };
 
 export const primaryNavigation: NavigationItem[] = [
-  { label: "Executive Dashboard", path: "/dashboard", icon: "dashboard" },
-  { label: "Budget Intelligence", path: "/budget", icon: "account_balance" },
-  { label: "Financial Intelligence", path: "/financial", icon: "payments" },
-  { label: "Commercial Intelligence", path: "/commercial", icon: "sell" },
-  { label: "Data Import Center", path: "/data-import", icon: "upload_file" },
-  { label: "HR Analytics", path: "/hr", icon: "groups" },
-  { label: "Inventory Intelligence", path: "/inventory", icon: "inventory_2" },
-  { label: "Operations Analytics", path: "/operations", icon: "precision_manufacturing" },
-  { label: "Purchasing Intelligence", path: "/purchasing", icon: "shopping_cart" },
+  { label: "Painel executivo", path: "/dashboard", icon: "dashboard" },
+  { label: "Orçamento", path: "/budget", icon: "account_balance" },
+  { label: "Financeiro", path: "/financial", icon: "payments" },
+  { label: "Comercial", path: "/commercial", icon: "sell" },
+  { label: "Importação de dados", path: "/data-import", icon: "upload_file" },
+  { label: "Pessoas", path: "/hr", icon: "groups" },
+  { label: "Estoque", path: "/inventory", icon: "inventory_2" },
+  { label: "Operações", path: "/operations", icon: "precision_manufacturing" },
+  { label: "Compras", path: "/purchasing", icon: "shopping_cart" },
 ];

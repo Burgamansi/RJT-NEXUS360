@@ -1,11 +1,11 @@
-import { commercialImportSchemas } from "../../features/commercial-intelligence/data/commercialImportSchema";
+﻿import { commercialImportSchemas } from "../../features/commercial-intelligence/data/commercialImportSchema";
 import { financialImportSchemas } from "../../features/financial-intelligence/data/financialImportSchema";
 import { hrImportSchemas } from "../../features/hr-analytics/data/hrImportSchema";
 import { inventoryImportSchemas } from "../../features/inventory-intelligence/data/inventoryImportSchema";
 import { operationsImportSchemas } from "../../features/operations-analytics/data/operationsImportSchema";
 import { purchasingImportSchemas } from "../../features/purchasing-intelligence/data/purchasingImportSchema";
 
-export type ImportModuleStatus = "Ready" | "Template" | "Pending";
+export type ImportModuleStatus = "Pronto" | "Template" | "Pendente";
 
 export type ImportModuleRegistryItem = {
   module: string;
@@ -25,7 +25,7 @@ export const importModuleRegistry: ImportModuleRegistryItem[] = [
     module: "Financeiro / DRE",
     source: financialImportSchemas.dreCost.source,
     formats: "CSV + XLSX",
-    status: "Ready",
+    status: "Pronto",
     readiness: 92,
     color: "bg-primary",
     route: "/financial",
@@ -36,7 +36,7 @@ export const importModuleRegistry: ImportModuleRegistryItem[] = [
     module: "RH",
     source: "Indicadores RH 2026.xlsm + atestados + turnover",
     formats: "XLSX + XLSM",
-    status: "Ready",
+    status: "Pronto",
     readiness: 88,
     color: "bg-secondary",
     route: "/hr",
@@ -94,8 +94,10 @@ export const importModuleRegistry: ImportModuleRegistryItem[] = [
 ];
 
 export const importRegistrySummary = {
-  readyModules: importModuleRegistry.filter((item) => item.status === "Ready").length,
+  readyModules: importModuleRegistry.filter((item) => item.status === "Pronto").length,
   targetModules: importModuleRegistry.length,
   mappedColumns: importModuleRegistry.reduce((total, item) => total + item.requiredColumns.length, 0),
   averageReadiness: Math.round(importModuleRegistry.reduce((total, item) => total + item.readiness, 0) / importModuleRegistry.length),
 };
+
+

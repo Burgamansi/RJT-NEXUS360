@@ -4,10 +4,10 @@ import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
 
 const budgetKpis = [
-  { icon: "account_balance", label: "Budget Total", value: "R$ 4.82M", delta: "FY 2026", tone: "text-secondary", border: "border-primary", progress: 76 },
+  { icon: "account_balance", label: "Budget Total", value: "R$ 4.82M", delta: "2026", tone: "text-secondary", border: "border-primary", progress: 76 },
   { icon: "payments", label: "Realizado", value: "R$ 3.94M", delta: "81.7%", tone: "text-status-success", border: "border-secondary", progress: 82 },
   { icon: "sync_alt", label: "Desvio", value: "+R$ 184k", delta: "+3.8%", tone: "text-status-critical", border: "border-status-critical", progress: 38 },
-  { icon: "query_stats", label: "Forecast", value: "R$ 5.06M", delta: "+5.1%", tone: "text-status-critical", border: "border-outline-variant", progress: 84 },
+  { icon: "query_stats", label: "Previs?o", value: "R$ 5.06M", delta: "+5.1%", tone: "text-status-critical", border: "border-outline-variant", progress: 84 },
   { icon: "savings", label: "Savings Gap", value: "R$ 126k", delta: "a capturar", tone: "text-secondary", border: "border-secondary-container", progress: 49 },
   { icon: "warning", label: "Budget Alerts", value: "7", delta: "3 críticos", tone: "text-status-critical", border: "border-status-critical", progress: 31 },
 ];
@@ -26,14 +26,14 @@ const budgetByArea = [
 
 const areaPerformance = [
   ["Financeiro", "R$ 1.42M", "+R$ 73k", "Over"],
-  ["Comercial", "R$ 842k", "+R$ 24k", "Watch"],
+  ["Comercial", "R$ 842k", "+R$ 24k", "Atenção"],
   ["Compras", "R$ 769k", "-R$ 42k", "Under"],
   ["Operações", "R$ 1.21M", "+R$ 96k", "Over"],
-  ["RH", "R$ 584k", "+R$ 33k", "Watch"],
+  ["RH", "R$ 584k", "+R$ 33k", "Atenção"],
 ] as const;
 
 const forecastControls = [
-  ["Forecast Accuracy", "92.4%", 92, "bg-status-success"],
+  ["Previs?o Accuracy", "92.4%", 92, "bg-status-success"],
   ["Committed Spend", "81.7%", 82, "bg-secondary"],
   ["Unplanned Expense", "R$ 184k", 38, "bg-status-critical"],
   ["Savings Pipeline", "R$ 126k", 49, "bg-primary"],
@@ -41,14 +41,14 @@ const forecastControls = [
 
 const insights = [
   { icon: "psychology", label: "AI Budget Recommendation", text: "Consolidar alertas de Operações e Financeiro para reduzir o desvio projetado antes do fechamento mensal.", tone: "text-secondary", bg: "bg-secondary-container/10" },
-  { icon: "warning", label: "Variance Alert", text: "Operações e Financeiro concentram 91% do excesso orçamentário projetado para o ciclo atual.", tone: "text-status-critical", bg: "bg-error-container/40" },
-  { icon: "monitoring", label: "Forecast Anomaly", text: "Compras está abaixo do orçamento, mas pode inverter tendência com reposição de matéria-prima Classe A.", tone: "text-status-critical", bg: "bg-status-critical/10" },
-  { icon: "stars", label: "Strategic Highlight", text: "Pipeline de economia em compras cobre 68% do desvio comercial previsto.", tone: "text-status-success", bg: "bg-status-success/10" },
+  { icon: "warning", label: "Variance Alert", text: "Operações e Financeiro concentram 91% do excesso orçamentário projetado para o ciclo atual.", tone: "text-status-critical", bg: "bg-erro-container/40" },
+  { icon: "monitoring", label: "Previs?o Anomaly", text: "Compras está abaixo do orçamento, mas pode inverter tendência com reposição de matéria-prima Classe A.", tone: "text-status-critical", bg: "bg-status-critical/10" },
+  { icon: "stars", label: "Destaque estratégico", text: "Pipeline de economia em compras cobre 68% do desvio comercial previsto.", tone: "text-status-success", bg: "bg-status-success/10" },
 ];
 
-const budgetRows = [
+const budgetLinhas = [
   ["Investimentos", "Financeiro", "R$ 750k", "+R$ 73k", "Over"],
-  ["Portal Saint Gobain", "Comercial", "R$ 73k", "+R$ 24k", "Watch"],
+  ["Portal Saint Gobain", "Comercial", "R$ 73k", "+R$ 24k", "Atenção"],
   ["Matéria-prima", "Compras", "R$ 769k", "-R$ 42k", "Under"],
   ["Manutenção Transporte", "Operações", "R$ 214k", "+R$ 38k", "Over"],
   ["Despesas Judiciais", "RH", "R$ 10k", "On track", "Stable"],
@@ -58,8 +58,8 @@ export function BudgetIntelligencePage() {
   return (
     <>
       <PageHeader
-        eyebrow="BUDGET INTELLIGENCE"
-        title="Executive Budget Control & Forecast Analytics"
+        eyebrow="Intelig?ncia or?ament?ria"
+        title="Controle orçamentário e previsão"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
@@ -68,7 +68,7 @@ export function BudgetIntelligencePage() {
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              BUDGET REPORT
+              Relat?rio or?ament?rio
             </button>
           </>
         }
@@ -92,7 +92,7 @@ export function BudgetIntelligencePage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Budget Analytics" subtitle="Orçado, realizado, forecast e desvios por ciclo" icon="analytics" />
+          <SectionTitle title="Análise orçamentária" subtitle="Orçado, realizado, forecast e desvios por ciclo" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <ChartHeader title="Budget vs Actual" meta="Evolução mensal consolidada" />
@@ -117,12 +117,12 @@ export function BudgetIntelligencePage() {
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
             <BudgetMetric label="Budget Usage" value="81.7%" note="Realizado no ciclo" />
             <BudgetMetric label="Variance" value="+3.8%" note="Acima do planejado" bordered />
-            <BudgetMetric label="Forecast Risk" value="R$ 184k" note="Desvio projetado" />
+            <BudgetMetric label="Previs?o Risco" value="R$ 184k" note="Desvio projetado" />
           </div>
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Area Performance" subtitle="Orçamento por área e status executivo" icon="leaderboard" />
+          <SectionTitle title="Desempenho por ?rea" subtitle="Orçamento por área e status executivo" icon="leaderboard" />
           <div className="mt-7 space-y-4">
             {areaPerformance.map(([name, budget, variance, status]) => (
               <div key={name} className="rounded-lg border border-glass-stroke bg-white/50 p-4">
@@ -140,7 +140,7 @@ export function BudgetIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-7">
-          <SectionTitle title="Forecast Center" subtitle="Acurácia, despesas não planejadas e pipeline de economia" icon="query_stats" />
+          <SectionTitle title="Central de previsão" subtitle="Acurácia, despesas não planejadas e pipeline de economia" icon="query_stats" />
           <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
             <div>
               <ChartHeader title="Variance Trend" meta="Desvio mensal e pressão de forecast" />
@@ -161,7 +161,7 @@ export function BudgetIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recomendações, alertas e anomalias orçamentárias" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomendações, alertas e anomalias orçamentárias" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -176,18 +176,18 @@ export function BudgetIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-12">
-          <SectionTitle title="Budget Tables" subtitle="Linhas orçamentárias, centros de custo, realizado, variação e status" icon="table_chart" />
+          <SectionTitle title="Tabelas orçamentárias" subtitle="Linhas orçamentárias, centros de custo, realizado, variação e status" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["BUDGET LINE", "AREA", "BUDGET", "VARIANCE", "STATUS"].map((heading) => (
+                  {["LINHA OR?AMENT?RIA", "?REA", "OR?AMENTO", "VARIA??O", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {budgetRows.map(([line, area, budget, variance, status]) => (
+                {budgetLinhas.map(([line, area, budget, variance, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
                     <td className="py-4 text-on-surface-variant">{area}</td>
@@ -228,7 +228,7 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">BUDGET MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">OR?AMENTO MODEL</span>
     </div>
   );
 }
@@ -267,3 +267,5 @@ function BudgetMetric({ label, value, note, bordered = false }: { label: string;
     </div>
   );
 }
+
+

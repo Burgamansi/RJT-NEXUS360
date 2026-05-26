@@ -1,4 +1,4 @@
-import { GlassCard } from "../../shared/ui/GlassCard";
+﻿import { GlassCard } from "../../shared/ui/GlassCard";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 import { PageHeader } from "../../shared/ui/PageHeader";
 import { ProgressBar } from "../../shared/ui/ProgressBar";
@@ -13,7 +13,7 @@ const {
   abcCurve,
   inventoryHealth,
   insights,
-  tableRows: inventoryRows,
+  tableRows: inventoryLinhas,
 } = inventoryAnalyticsView;
 
 export function InventoryIntelligencePage() {
@@ -21,7 +21,7 @@ export function InventoryIntelligencePage() {
     <>
       <PageHeader
         eyebrow="INVENTORY INTELLIGENCE"
-        title="Executive Stock Analytics & Working Capital Control"
+        title="Estoque executivo e capital de giro"
         actions={
           <>
             <button className="flex items-center gap-2 rounded-full border border-glass-stroke px-5 py-3 font-label-caps text-label-caps transition-all hover:bg-surface-container-low">
@@ -30,7 +30,7 @@ export function InventoryIntelligencePage() {
             </button>
             <button className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-label-caps text-label-caps text-white shadow-xl transition-all hover:shadow-primary/20">
               <MaterialIcon name="download" className="text-[18px]" />
-              STOCK REPORT
+              Relat?rio de estoque
             </button>
           </>
         }
@@ -54,7 +54,7 @@ export function InventoryIntelligencePage() {
 
       <section className="mt-gutter grid grid-cols-1 gap-gutter xl:grid-cols-12">
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Stock Analytics" subtitle="Estoque anterior vs final, composicao e capital empregado" icon="analytics" />
+          <SectionTitle title="An?lise de estoque" subtitle="Estoque anterior vs final, composi??o e capital empregado" icon="analytics" />
           <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
               <ChartHeader title="Stock Value Trend" meta="Periodo 8-12 meses e variacao mensal" />
@@ -79,7 +79,7 @@ export function InventoryIntelligencePage() {
           <div className="mt-8 grid grid-cols-1 gap-6 border-t border-glass-stroke pt-6 md:grid-cols-3">
             <InventoryMetric label="Stock Reduction" value={inventoryKpis[0].delta} note="No geral reduzido" positive />
             <InventoryMetric label="WIP Movement" value={inventoryKpis[2].delta} note="Produto em processo" bordered />
-            <InventoryMetric label="Finished Goods" value={inventoryKpis[3].delta} note="Material acabado" positive />
+            <InventoryMetric label="Produto acabado" value={inventoryKpis[3].delta} note="Material acabado" positive />
           </div>
         </GlassCard>
 
@@ -123,7 +123,7 @@ export function InventoryIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-5">
-          <SectionTitle title="Executive Insights" subtitle="Recomendacoes, riscos de estoque e anomalias de consumo" icon="tips_and_updates" />
+          <SectionTitle title="Insights executivos" subtitle="Recomenda??es, riscos de estoque e anomalias de consumo" icon="tips_and_updates" />
           <div className="mt-7 space-y-4">
             {insights.map((insight) => (
               <div key={insight.label} className={`rounded-lg border border-glass-stroke p-4 ${insight.bg}`}>
@@ -138,13 +138,13 @@ export function InventoryIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-4">
-          <SectionTitle title="Stock Risk Matrix" subtitle="Giro, criticidade e exposicao de capital" icon="grid_view" />
+          <SectionTitle title="Stock Risco Matrix" subtitle="Giro, criticidade e exposicao de capital" icon="grid_view" />
           <div className="mt-7 grid grid-cols-5 gap-2">
             {Array.from({ length: 25 }).map((_, index) => (
-              <RiskCell key={index} index={index} />
+              <RiscoCell key={index} index={index} />
             ))}
           </div>
-          <div className="mt-6 rounded-lg border border-error/10 bg-error-container/20 p-4">
+          <div className="mt-6 rounded-lg border border-erro/10 bg-erro-container/20 p-4">
             <div className="flex items-center gap-3">
               <MaterialIcon name="report_problem" className="text-status-critical" />
               <span className="font-label-caps text-[10px] text-outline">WIP ATTENTION</span>
@@ -154,18 +154,18 @@ export function InventoryIntelligencePage() {
         </GlassCard>
 
         <GlassCard className="p-8 xl:col-span-8">
-          <SectionTitle title="Inventory Tables" subtitle="Categorias, curva ABC, estoque final, variacao e itens criticos" icon="table_chart" />
+          <SectionTitle title="Tabelas de estoque" subtitle="Categorias, curva ABC, estoque final, variacao e itens criticos" icon="table_chart" />
           <div className="hide-scrollbar mt-6 overflow-x-auto">
             <table className="w-full min-w-[760px] text-left">
               <thead>
                 <tr className="border-b border-glass-stroke">
-                  {["STOCK LINE", "SECTION", "VALUE", "MOVEMENT", "STATUS"].map((heading) => (
+                  {["LINHA DE ESTOQUE", "SEÇÃO", "VALOR", "MOVIMENTO", "STATUS"].map((heading) => (
                     <th key={heading} className="pb-4 font-label-caps text-[10px] text-outline">{heading}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className="font-body-sm">
-                {inventoryRows.map(([line, section, value, movement, status]) => (
+                {inventoryLinhas.map(([line, section, value, movement, status]) => (
                   <tr key={line} className="border-b border-glass-stroke/60 transition-colors hover:bg-surface-container-low">
                     <td className="py-4 font-semibold text-primary">{line}</td>
                     <td className="py-4 text-on-surface-variant">{section}</td>
@@ -206,7 +206,7 @@ function ChartHeader({ title, meta }: { title: string; meta: string }) {
         <p className="font-label-caps text-[10px] text-outline">{title}</p>
         <p className="mt-1 text-sm text-on-surface-variant">{meta}</p>
       </div>
-      <span className="font-data-mono text-[11px] text-outline">STOCK MODEL</span>
+      <span className="font-data-mono text-[11px] text-outline">MODELO DE ESTOQUE</span>
     </div>
   );
 }
@@ -248,7 +248,7 @@ function InventoryMetric({ label, value, note, bordered = false, positive = fals
   );
 }
 
-function RiskCell({ index }: { index: number }) {
+function RiscoCell({ index }: { index: number }) {
   const critical = [7, 12, 13, 18];
   const watch = [3, 8, 16, 21];
   const healthy = [1, 5, 10, 15, 22];
@@ -263,3 +263,5 @@ function RiskCell({ index }: { index: number }) {
 
   return <div className={`flex aspect-square items-center justify-center rounded-sm font-data-mono text-[10px] ${color} ${label ? "opacity-40" : ""}`}>{label}</div>;
 }
+
+

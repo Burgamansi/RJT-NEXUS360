@@ -1,4 +1,4 @@
-type ProgressBarProps = {
+﻿type ProgressBarProps = {
   value: number;
   className?: string;
 };
@@ -10,3 +10,5 @@ export function ProgressBar({ value, className = "bg-secondary" }: ProgressBarPr
     </div>
   );
 }
+
+

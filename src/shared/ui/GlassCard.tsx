@@ -3,5 +3,5 @@ import type { ComponentPropsWithoutRef } from "react";
 type GlassCardProps = ComponentPropsWithoutRef<"div">;
 
 export function GlassCard({ className = "", ...props }: GlassCardProps) {
-  return <div className={`glass-card cinematic-shadow rounded-xl ${className}`} {...props} />;
+  return <div className={`glass-card cinematic-shadow rounded-lg ${className}`} {...props} />;
 }

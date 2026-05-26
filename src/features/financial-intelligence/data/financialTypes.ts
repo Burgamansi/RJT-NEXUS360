@@ -1,4 +1,4 @@
-export type FinancialEntry = {
+﻿export type FinancialEntry = {
   postingDate: string;
   launchType: "receita" | "despesa" | "custo" | "transferencia";
   costCode: string;
@@ -44,3 +44,5 @@ export type FinancialAnalyticsView = {
   insights: FinancialInsight[];
   tableRows: FinancialTableRow[];
 };
+
+

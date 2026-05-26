@@ -9,7 +9,7 @@ const requiredAliases: FieldAliases = {
   finalValue: ["Estoque Final"],
 };
 
-export function normalizeInventoryRows(rows: SpreadsheetRow[]): NormalizationResult<InventoryItem> {
+export function normalizeInventoryLinhas(rows: SpreadsheetRow[]): NormalizationResult<InventoryItem> {
   const issues = rows.flatMap((row, index) => validateRequired(row, index, requiredAliases));
   const records = rows.map((row): InventoryItem => {
     const category = readText(row, requiredAliases.category);
@@ -23,10 +23,11 @@ export function normalizeInventoryRows(rows: SpreadsheetRow[]): NormalizationRes
       previousValue: readNumber(row, ["Estoque Anterior"], 0),
       finalValue: readNumber(row, requiredAliases.finalValue),
       stockDays: readNumber(row, ["Dias Cobertura"], 0),
-      turnoverIndex: readNumber(row, ["Indice Giro", "Índice Giro"], 0),
+      turnoverIndex: readNumber(row, ["Indice Giro", "Ãndice Giro"], 0),
       criticality: includesNormalized(criticality, ["watch", "monitorar"]) ? "watch" : includesNormalized(criticality, ["critical", "critico", "crítico"]) ? "critical" : includesNormalized(criticality, ["protected", "protegido"]) ? "protected" : "healthy",
     };
   });
 
   return { records, issues };
 }
+
