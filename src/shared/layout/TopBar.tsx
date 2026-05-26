@@ -2,9 +2,11 @@ import { NavLink } from "react-router-dom";
 import { MaterialIcon } from "../ui/MaterialIcon";
 
 const topLinks = [
-  { label: "EXECUTIVE HUB", to: "/executive" },
+  { label: "DASHBOARD", to: "/dashboard" },
   { label: "FINANCIAL", to: "/financial" },
-  { label: "DATA CENTER", to: "/executive" },
+  { label: "HR", to: "/hr" },
+  { label: "OPERATIONS", to: "/operations" },
+  { label: "PURCHASING", to: "/purchasing" },
 ];
 
 export function TopBar() {

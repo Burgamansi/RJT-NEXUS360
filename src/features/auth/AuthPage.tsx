@@ -1,17 +1,14 @@
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { MaterialIcon } from "../../shared/ui/MaterialIcon";
 
 export function AuthPage() {
-  const [status, setStatus] = useState<"idle" | "validating" | "authorized">("idle");
+  const navigate = useNavigate();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("validating");
-    window.setTimeout(() => setStatus("authorized"), 900);
+    navigate("/dashboard");
   }
-
-  const label = status === "idle" ? "AUTENTICAR ACESSO" : status === "validating" ? "VALIDANDO..." : "ACESSO AUTORIZADO";
-  const icon = status === "idle" ? "arrow_forward" : status === "validating" ? "sync" : "check_circle";
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-tertiary px-margin-mobile font-body-base text-on-background md:px-margin-desktop">
@@ -51,15 +48,11 @@ export function AuthPage() {
             </div>
 
             <button
-              className={`flex w-full items-center justify-center gap-3 rounded-lg py-5 font-label-caps transition-all duration-300 active:scale-95 ${
-                status === "authorized"
-                  ? "bg-status-success text-white"
-                  : "bg-electric-blue text-tertiary hover:bg-white hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]"
-              }`}
+              className="flex w-full items-center justify-center gap-3 rounded-lg bg-electric-blue py-5 font-label-caps text-tertiary transition-all duration-300 hover:bg-white hover:shadow-[0_0_30px_rgba(0,240,255,0.4)] active:scale-95"
               type="submit"
             >
-              <MaterialIcon name={icon} className={status === "validating" ? "animate-spin" : ""} />
-              <span>{label}</span>
+              <span>ACESSO AUTORIZADO</span>
+              <MaterialIcon name="arrow_forward" />
             </button>
           </form>
 
